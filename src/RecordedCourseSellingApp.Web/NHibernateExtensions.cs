@@ -4,7 +4,6 @@ using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Tool.hbm2ddl;
 using RecordedCourseSellingApp.DataAccess;
-using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.Web;
 
