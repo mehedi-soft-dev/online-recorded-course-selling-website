@@ -26,6 +26,7 @@ public static class NHibernateExtensions
             c.LogFormattedSql = true;
             c.LogSqlInConsole = true;
         });
+        
         configuration.AddMapping(domainMapping);
         
         var schemaUpdate = new SchemaUpdate(configuration);
