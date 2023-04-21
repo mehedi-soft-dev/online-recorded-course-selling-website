@@ -1,3 +1,4 @@
+using log4net;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
 using RecordedCourseSellingApp.Web;
@@ -11,10 +12,16 @@ builder.Services
     .AddServices()
     .AddDataAccess();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddLog4Net();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+ILog log = LogManager.GetLogger(typeof(Program));
+log.Info("Application Starting up..");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
