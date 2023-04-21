@@ -4,7 +4,6 @@ using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Tool.hbm2ddl;
 using RecordedCourseSellingApp.DataAccess;
-using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.Web;
 
@@ -29,14 +28,13 @@ public static class NHibernateExtensions
         });
         configuration.AddMapping(domainMapping);
         
-        var schemaExport = new SchemaExport(configuration);
-        schemaExport.Create(true, false);
+        var schemaUpdate = new SchemaUpdate(configuration);
+        schemaUpdate.Execute(false, true);
         
         var sessionFactory = configuration.BuildSessionFactory();
  
         services.AddSingleton(sessionFactory);
         services.AddScoped(factory => sessionFactory.OpenSession());
-        // services.AddScoped<IMapperSession, NHibernateMapperSession>();
  
         return services;
     }
