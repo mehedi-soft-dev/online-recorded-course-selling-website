@@ -1,9 +1,14 @@
+using System.Linq.Expressions;
 using NHibernate;
+using NHibernate.Linq;
+using RecordedCourseSellingApp.DataAccess.Entities;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace RecordedCourseSellingApp.DataAccess.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity> 
-    where TEntity : class 
+public class Repository<T, TKey> : IRepository<T, TKey>
+    where T : class, IEntity<TKey>
 {
     private readonly ISession _session;
 
@@ -12,28 +17,47 @@ public class Repository<TEntity> : IRepository<TEntity>
         _session = session;
     }
 
-    public void Add(TEntity entity)
-    {
-        _session.Save(entity);
-    }
+    public async Task AddAsync(T entity) => await _session.SaveAsync(entity);
+    
+    public async Task UpdateAsync(T entity) => await _session.SaveOrUpdateAsync(entity);
+    
+    public async Task DeleteAsync(T entity) => await _session.DeleteAsync(entity);
+    
+    public async Task AddOrUpdateAsync(T entity) => await _session.SaveOrUpdateAsync(entity);
+    
+    public async Task MergeAsync(T entity) => await _session.MergeAsync(entity);
+    
+    public async Task<T?> GetSingleAsync(TKey id) => await _session.GetAsync<T>(id);
+    
+    public async Task<IEnumerable<T>> GetAllAsync() => 
+        await Task.Run(() =>_session.Query<T>().ToList());
+    
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => 
+        await Task.Run(() => _session.Query<T>().Where(predicate));
 
-    public void Update(TEntity entity)
+    public virtual async Task<(IList<T> data, int total, int totalDisplay)> 
+        GetByPagingAsync(Expression<Func<T, bool>> filter = null!, string orderBy = null!, 
+            int pageIndex = 1, int pageSize = 10)
     {
-        _session.Update(entity);
-    }
+        IQueryable<T> query = _session.Query<T>();
+        var total = query.Count();
+        var totalDisplay = query.Count();
 
-    public void Delete(TEntity entity)
-    {
-        _session.Delete(entity);
-    }
+        if (filter != null)
+        {
+            query = query.Where(filter);
+            totalDisplay = query.Count();
+        }
 
-    public TEntity GetById(int id)
-    {
-        return _session.Get<TEntity>(id);
-    }
-
-    public IEnumerable<TEntity> GetAll()
-    {
-        return _session.Query<TEntity>();
+        if (orderBy != null)
+        {
+            var result = query.OrderBy(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return (await result.ToListAsync(), total, totalDisplay);
+        }
+        else
+        {
+            var result = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return (await result.ToListAsync(), total, totalDisplay);
+        }
     }
 }

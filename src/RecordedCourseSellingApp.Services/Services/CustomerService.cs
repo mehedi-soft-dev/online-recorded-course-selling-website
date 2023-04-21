@@ -21,7 +21,7 @@ public class CustomerService : ICustomerService
             Email = customerDto.Email,
             Name = customerDto.Name,
         };
-        _unitOfWork.Customers.Add(customer);
+        _unitOfWork.Customers.AddAsync(customer);
         _unitOfWork.Commit();
     }
 }

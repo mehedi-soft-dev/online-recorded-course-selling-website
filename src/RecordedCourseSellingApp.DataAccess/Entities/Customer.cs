@@ -1,6 +1,6 @@
 namespace RecordedCourseSellingApp.DataAccess.Entities;
 
-public class Customer
+public class Customer : IEntity<Guid>
 {
     public virtual Guid Id { get; set; }
     
