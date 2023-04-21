@@ -1,16 +1,28 @@
 using System.Linq.Expressions;
+using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.DataAccess.Repositories;
 
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<T, in TKey> 
+    where T : class, IEntity<TKey>
 {
-    void Add(TEntity entity);
+    Task AddAsync(T entity);
+
+    Task UpdateAsync(T entity);
+
+    Task DeleteAsync(T entity);
+
+    Task AddOrUpdateAsync(T entity);
+
+    Task MergeAsync(T entity);
     
-    void Update(TEntity entity);
+    Task<T?> GetSingleAsync(TKey id);
     
-    void Delete(TEntity entity);
+    Task<IEnumerable<T>> GetAllAsync();
     
-    TEntity GetById(int id);
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
     
-    IEnumerable<TEntity> GetAll();
+    Task<(IList<T> data, int total, int totalDisplay)> GetByPagingAsync(
+        Expression<Func<T, bool>> filter = null!, string orderBy = null!, 
+        int pageIndex = 1, int pageSize = 10);
 }
