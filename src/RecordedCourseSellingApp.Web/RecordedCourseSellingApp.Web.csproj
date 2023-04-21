@@ -7,4 +7,14 @@
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NHibernate" Version="5.4.2" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj" />
+      <ProjectReference Include="..\RecordedCourseSellingApp.Services\RecordedCourseSellingApp.Services.csproj" />
+    </ItemGroup>
+
 </Project>

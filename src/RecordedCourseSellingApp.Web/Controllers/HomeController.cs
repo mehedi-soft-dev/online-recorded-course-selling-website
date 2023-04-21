@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using RecordedCourseSellingApp.Services.DTOs;
+using RecordedCourseSellingApp.Services.Services;
 using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Controllers;
@@ -7,14 +9,22 @@ namespace RecordedCourseSellingApp.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ICustomerService _customerService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ICustomerService customerService)
     {
         _logger = logger;
+        _customerService = customerService;
     }
 
     public IActionResult Index()
     {
+        _customerService.Insert(new CustomerDto()
+        {
+            Email = "cse.mdmehedi@gmail.com",
+            Name = "Mehedi Hasan",
+        });
+        
         return View();
     }
 

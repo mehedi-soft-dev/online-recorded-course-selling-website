@@ -1,4 +1,15 @@
+using RecordedCourseSellingApp.DataAccess;
+using RecordedCourseSellingApp.Services;
+using RecordedCourseSellingApp.Web;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
+
+builder.Services
+    .AddNHibernate(connectionString)
+    .AddServices()
+    .AddDataAccess();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
