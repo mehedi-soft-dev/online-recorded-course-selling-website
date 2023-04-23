@@ -5,7 +5,7 @@ namespace RecordedCourseSellingApp.Services;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddServiceLayer(this IServiceCollection services)
     {
         //Service
         services.AddScoped<ICustomerService, CustomerService>();
