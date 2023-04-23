@@ -1,6 +1,8 @@
 using log4net;
 using RecordedCourseSellingApp.DataAccess;
+using RecordedCourseSellingApp.DataAccess.Identity.Extensions;
 using RecordedCourseSellingApp.Services;
+using RecordedCourseSellingApp.Web.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,7 @@ try
 
     app.UseRouting();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllerRoute(
