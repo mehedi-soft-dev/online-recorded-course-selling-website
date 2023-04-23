@@ -1,11 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Tool.hbm2ddl;
-using RecordedCourseSellingApp.DataAccess;
 
-namespace RecordedCourseSellingApp.Web;
+namespace RecordedCourseSellingApp.DataAccess;
 
 public static class NHibernateExtensions
 {
@@ -13,7 +13,7 @@ public static class NHibernateExtensions
         string connectionString)
     {
         var mapper = new ModelMapper();
-        mapper.AddMappings(typeof(DataAccessAssemblyReference).Assembly.ExportedTypes);
+        mapper.AddMappings(typeof(NHibernateExtensions).Assembly.ExportedTypes);
         HbmMapping domainMapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
  
         var configuration = new Configuration();
@@ -36,7 +36,8 @@ public static class NHibernateExtensions
  
         services.AddSingleton(sessionFactory);
         services.AddScoped(factory => sessionFactory.OpenSession());
- 
+
+        services.AddDataAccess();
         return services;
     }
 }

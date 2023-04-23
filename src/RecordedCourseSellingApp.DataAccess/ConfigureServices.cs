@@ -8,9 +8,11 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
+        //Register Unit of work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
-        //Repositories
+        //
+        //Register Repositories
         services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
