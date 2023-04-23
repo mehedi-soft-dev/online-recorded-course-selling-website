@@ -1,8 +1,6 @@
 using log4net;
 using RecordedCourseSellingApp.DataAccess;
-using RecordedCourseSellingApp.DataAccess.Identity.Extensions;
 using RecordedCourseSellingApp.Services;
-using RecordedCourseSellingApp.Web.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +38,10 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.MapControllerRoute(
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     app.MapControllerRoute(
         name: "default",
