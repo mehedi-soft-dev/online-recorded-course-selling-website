@@ -1,8 +1,8 @@
 using NHibernate;
 using NHibernate.Mapping.ByCode.Conformist;
-using RecordedCourseSellingApp.DataAccess.Membership.Entities;
+using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 
-namespace RecordedCourseSellingApp.DataAccess.Membership.Mappings;
+namespace RecordedCourseSellingApp.DataAccess.Identity.Mappings;
 
 public class ApplicationUserTokenMap : ClassMapping<ApplicationUserToken>
 {
