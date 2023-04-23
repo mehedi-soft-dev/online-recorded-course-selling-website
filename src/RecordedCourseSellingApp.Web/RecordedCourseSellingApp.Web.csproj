@@ -11,7 +11,6 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
       <PackageReference Include="NHibernate" Version="5.4.2" />
-      <PackageReference Include="NHibernate.Mapping.Attributes" Version="5.1.0" />
       <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     </ItemGroup>
 
