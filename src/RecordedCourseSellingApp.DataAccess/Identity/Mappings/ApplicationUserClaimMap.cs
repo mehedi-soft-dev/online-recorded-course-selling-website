@@ -13,8 +13,9 @@ public class ApplicationUserClaimMap : ClassMapping<ApplicationUserClaim>
         Table("ApplicationUserClaims");
         Id(e => e.Id, id => {
             id.Column("id");
-            id.Type(NHibernateUtil.Int32);
-            id.Generator(Generators.Identity);
+            id.Type(NHibernateUtil.Guid);
+            id.Generator(Generators.Guid);
+            id.UnsavedValue(Guid.Empty);
         });
         Property(e => e.ClaimType, prop => {
             prop.Column("ClaimType");

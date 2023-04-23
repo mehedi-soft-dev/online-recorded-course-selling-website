@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using NHibernate;
-using NHibernate.AspNetCore.Identity;
 using NHibernate.Linq;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 

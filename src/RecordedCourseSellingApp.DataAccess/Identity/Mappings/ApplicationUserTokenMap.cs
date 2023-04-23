@@ -13,8 +13,7 @@ public class ApplicationUserTokenMap : ClassMapping<ApplicationUserToken>
         ComposedId(id => {
             id.Property(e => e.UserId, prop => {
                 prop.Column("UserId");
-                prop.Type(NHibernateUtil.String);
-                prop.Length(32);
+                prop.Type(NHibernateUtil.Guid);
             });
             id.Property(e => e.LoginProvider, prop => {
                 prop.Column("LoginProvider");

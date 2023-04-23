@@ -13,13 +13,11 @@ public class ApplicationUserRoleMap : ClassMapping<ApplicationUserRole>
         ComposedId(id => {
             id.Property(e => e.UserId, prop => {
                 prop.Column("UserId");
-                prop.Type(NHibernateUtil.String);
-                prop.Length(32);
+                prop.Type(NHibernateUtil.Guid);
             });
             id.Property(e => e.RoleId, prop => {
                 prop.Column("RoleId");
-                prop.Type(NHibernateUtil.String);
-                prop.Length(32);
+                prop.Type(NHibernateUtil.Guid);
             });
         });
     }

@@ -13,8 +13,9 @@ public class ApplicationRoleClaimMap : ClassMapping<ApplicationRoleClaim>
         Table("ApplicationRoleClaims");
         Id(e => e.Id, id => {
             id.Column("Id");
-            id.Type(NHibernateUtil.Int32);
-            id.Generator(Generators.Identity);
+            id.Type(NHibernateUtil.Guid);
+            id.Generator(Generators.Guid);
+            id.UnsavedValue(Guid.Empty);
         });
         Property(e => e.ClaimType, prop => {
             prop.Column("ClaimType");

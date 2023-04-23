@@ -30,8 +30,7 @@ public class ApplicationUserLoginMap : ClassMapping<ApplicationUserLogin>
         });
         Property(e => e.UserId, prop => {
             prop.Column("UserId");
-            prop.Type(NHibernateUtil.String);
-            prop.Length(32);
+            prop.Type(NHibernateUtil.Guid);
             prop.NotNullable(true);
         });
     }

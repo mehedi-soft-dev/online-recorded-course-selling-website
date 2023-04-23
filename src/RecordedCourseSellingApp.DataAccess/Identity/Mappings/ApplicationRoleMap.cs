@@ -13,9 +13,9 @@ public class ApplicationRoleMap : ClassMapping<ApplicationRole>
         Table("ApplicationRoles");
         Id(e => e.Id, id => {
             id.Column("Id");
-            id.Type(NHibernateUtil.String);
-            id.Length(32);
-            id.Generator(Generators.UUIDHex("N"));
+            id.Type(NHibernateUtil.Guid);
+            id.Generator(Generators.Guid);
+            id.UnsavedValue(Guid.Empty);
         });
         Property(e => e.Name, prop => {
             prop.Column("Name");

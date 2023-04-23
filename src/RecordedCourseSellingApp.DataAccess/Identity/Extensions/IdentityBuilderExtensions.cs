@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using NHibernate.AspNetCore.Identity;
+using RecordedCourseSellingApp.DataAccess.Identity.Store;
 
 namespace RecordedCourseSellingApp.DataAccess.Identity.Extensions;
 
