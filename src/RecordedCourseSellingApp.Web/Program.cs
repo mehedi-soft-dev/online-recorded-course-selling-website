@@ -1,16 +1,14 @@
 using log4net;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
-using RecordedCourseSellingApp.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
 
 builder.Services
-    .AddNHibernate(connectionString)
     .AddServices()
-    .AddDataAccess();
+    .AddNHibernate(connectionString);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddLog4Net();
