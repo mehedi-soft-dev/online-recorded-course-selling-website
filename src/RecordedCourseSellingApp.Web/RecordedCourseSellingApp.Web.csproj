@@ -38,4 +38,16 @@
       <None Remove="Extensions\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\user\fonts\fontawesome-webfont.svg" />
+      <None Include="wwwroot\user\fonts\fontawesome-webfont.woff2" />
+      <None Include="wwwroot\user\fonts\slick.svg" />
+      <None Include="wwwroot\user\js\bootstrap.min.js" />
+      <None Include="wwwroot\user\js\jquery.min.js" />
+      <None Include="wwwroot\user\js\jquery.zoom.min.js" />
+      <None Include="wwwroot\user\js\main.js" />
+      <None Include="wwwroot\user\js\nouislider.min.js" />
+      <None Include="wwwroot\user\js\slick.min.js" />
+    </ItemGroup>
+
 </Project>
