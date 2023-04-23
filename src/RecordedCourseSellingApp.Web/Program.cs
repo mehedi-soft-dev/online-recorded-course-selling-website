@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
 
 builder.Services
-    .AddServices()
-    .AddNHibernate(connectionString);
+    .AddDataAccessLayer(connectionString)
+    .AddServiceLayer();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddLog4Net();

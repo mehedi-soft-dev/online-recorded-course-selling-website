@@ -36,8 +36,7 @@ public static class NHibernateExtensions
  
         services.AddSingleton(sessionFactory);
         services.AddScoped(factory => sessionFactory.OpenSession());
-
-        services.AddDataAccess();
+        
         return services;
     }
 }

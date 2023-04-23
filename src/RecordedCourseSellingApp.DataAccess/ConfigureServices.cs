@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddDataAccess(this IServiceCollection services)
+    public static IServiceCollection AddDataAccessLayer(this IServiceCollection services, 
+        string connectionString)
     {
+        services.AddNHibernate(connectionString);
         //Register Unit of work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
