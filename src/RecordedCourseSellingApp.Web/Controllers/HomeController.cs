@@ -20,11 +20,12 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         _logger.LogInformation("In index page");
-        _customerService.Insert(new CustomerDto()
-        {
-            Email = "cse.mdmehedi@gmail.com",
-            Name = "Mehedi Hasan",
-        });
+        
+        //_customerService.Insert(new CustomerDto()
+        //{
+        //    Email = "cse.mdmehedi@gmail.com",
+        //    Name = "Mehedi Hasan",
+        //});
         
         return View();
     }
