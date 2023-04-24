@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
-using RecordedCourseSellingApp.Web.Models;
+using RecordedCourseSellingApp.Web.Areas.Identity.Models;
 using System.Text;
 
-namespace RecordedCourseSellingApp.Web.Controllers;
+namespace RecordedCourseSellingApp.Web.Areas.Identity.Controllers;
 
+[Area("Identity")]
 [Authorize]
 public class AccountController : Controller
 {
@@ -64,7 +65,7 @@ public class AccountController : Controller
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
                 var callbackUrl = Url.Page("/Account/ConfirmEmail", pageHandler: null,
-                    values: new { area = "", userId = user.Id, code = code, returnUrl = model.ReturnUrl },
+                    values: new { area = "", userId = user.Id, code, returnUrl = model.ReturnUrl },
                     protocol: Request.Scheme);
 
                 if (_userManager.Options.SignIn.RequireConfirmedAccount)
@@ -89,7 +90,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult SignIn(string? returnUrl = null)
+    public IActionResult Login(string? returnUrl = null)
     {
         var model = _scope.Resolve<SignInModel>();
         model.ReturnUrl = returnUrl;
@@ -99,7 +100,7 @@ public class AccountController : Controller
 
     [HttpPost, ValidateAntiForgeryToken]
     [AllowAnonymous]
-    public async Task<IActionResult> SignIn(SignInModel model)
+    public async Task<IActionResult> Login(SignInModel model)
     {
         model.ReturnUrl ??= Url.Content("~/");
 
@@ -123,7 +124,7 @@ public class AccountController : Controller
             }
             if (result.RequiresTwoFactor)
             {
-                return RedirectToAction("LoginWith2fa", new { ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+                return RedirectToAction("LoginWith2fa", new { model.ReturnUrl, model.RememberMe });
             }
             if (result.IsLockedOut)
             {

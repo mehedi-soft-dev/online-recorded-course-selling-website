@@ -1,8 +1,9 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Mvc;
+using RecordedCourseSellingApp.Web.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace RecordedCourseSellingApp.Web.Models;
+namespace RecordedCourseSellingApp.Web.Areas.Identity.Models;
 
 public class SignInModel : BaseModel
 {

@@ -1,5 +1,5 @@
 using Autofac;
-using RecordedCourseSellingApp.Web.Models;
+using RecordedCourseSellingApp.Web.Areas.Identity.Models;
 
 namespace RecordedCourseSellingApp.Web;
 
