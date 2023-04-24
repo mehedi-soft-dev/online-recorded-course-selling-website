@@ -74,7 +74,7 @@ public class AccountController : Controller
                 else
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(model.ReturnUrl);
                 }
             }
 
@@ -84,6 +84,60 @@ public class AccountController : Controller
             }
         }
 
+        return View(model);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult SignIn(string? returnUrl = null)
+    {
+        var model = _scope.Resolve<SignInModel>();
+        model.ReturnUrl = returnUrl;
+
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    [AllowAnonymous]
+    public async Task<IActionResult> SignIn(SignInModel model)
+    {
+        model.ReturnUrl ??= Url.Content("~/");
+
+        if (ModelState.IsValid)
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+         
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    _logger.LogInformation("Admin Logged In");
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                }
+
+                _logger.LogInformation("User logged in.");
+
+                return LocalRedirect(model.ReturnUrl);
+            }
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToAction("LoginWith2fa", new { ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            }
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                return RedirectToAction("Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+        }
+
+        // If we got this far, something failed, redisplay form
         return View(model);
     }
 }

@@ -1,10 +1,10 @@
-@model SignUpModel
+﻿@model SignInModel
 @{
-    ViewData["Title"] = "Sign Up";
+    ViewData["Title"] = "Sign In";
     Layout = "~/Views/Shared/_SimpleLayout.cshtml";
 }
 
-<div class="register-box">
+<div class="signin-box">
     <div class="card card-outline card-primary">
         <div class="card-header text-center" style="background-color:#15161D;border-bottom: 3px solid #D10024;">
             <a asp-controller="Home" asp-action="Index" class="h1" style="color:#fff;">
@@ -12,29 +12,12 @@
             </a>
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Sign up as member</p>
+            <p class="login-box-msg">Sign In </p>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <form id="SignUpForm" asp-antiforgery="true" asp-controller="Account" asp-action="SignUp" method="post">
-                
+            <form id="SignUpForm" asp-antiforgery="true" asp-controller="Account" asp-action="SignIn" method="post">
+
                 <input type="hidden" asp-for="ReturnUrl" />
 
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" asp-for="FirstName" placeholder="First name">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                    <span asp-validation-for="FirstName" class="text-danger input-group"></span>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" asp-for="LastName" placeholder="Last name">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" asp-for="Email" placeholder="Email">
                     <div class="input-group-append">
@@ -53,27 +36,18 @@
                     </div>
                     <span asp-validation-for="Password" class="text-danger input-group"></span>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Retype password">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                    <span asp-validation-for="ConfirmPassword" class="text-danger input-group"></span>
-                </div>
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
+                            <input type="checkbox" asp-for="RememberMe">
+                            <label asp-for="RememberMe">
+                                RememberMe
                             </label>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-danger btn-block">Sign Up</button>
+                        <button type="submit" class="btn btn-danger btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -81,13 +55,15 @@
             <div class="text-center">
                 <br />
                 <p>-OR-</p>
-                <a asp-controller="Account" asp-action="SignIn" class="text-center">I already have a membership</a>
+                <a asp-asp-controller="Account" asp-action="SignUp" class="text-center">Sign Up</a>
             </div>
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
 </div>
-<!-- /.register-box -->
+<!-- /.Signin-box -->
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
