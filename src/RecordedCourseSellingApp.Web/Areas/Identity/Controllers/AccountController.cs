@@ -142,4 +142,15 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> SignOut(string? returnUrl = null)
+    {
+        await _signInManager.SignOutAsync();
+
+        if (returnUrl != null)
+            return LocalRedirect(returnUrl);
+
+        return RedirectToAction("Index", "Home", new { Area = "" });
+    }
 }
