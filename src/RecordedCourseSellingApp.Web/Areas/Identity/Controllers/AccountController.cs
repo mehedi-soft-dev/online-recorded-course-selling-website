@@ -1,4 +1,5 @@
 using Autofac;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -90,10 +91,12 @@ public class AccountController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Login(string? returnUrl = null)
+    public async Task<IActionResult> Login(string? returnUrl = null)
     {
         var model = _scope.Resolve<SignInModel>();
         model.ReturnUrl = returnUrl;
+
+        await _signInManager.SignOutAsync();
 
         return View(model);
     }
