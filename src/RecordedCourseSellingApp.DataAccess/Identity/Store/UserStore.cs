@@ -1,15 +1,14 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using NHibernate;
-using NHibernate.AspNetCore.Identity;
 using NHibernate.Linq;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
+using System.Security.Claims;
 
 namespace RecordedCourseSellingApp.DataAccess.Identity.Store;
 
 public class UserStore<TUser, TRole> :
     UserStoreBase<TUser, TRole, Guid, ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin, ApplicationUserToken, ApplicationRoleClaim>,
-    IProtectedUserStore<TUser> where TUser : ApplicationUser where TRole : ApplicationRole 
+    IProtectedUserStore<TUser> where TUser : IdentityUser<Guid> where TRole : ApplicationRole 
 {
     private readonly ISession _session;
 
@@ -93,10 +92,21 @@ public class UserStore<TUser, TRole> :
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        
+
         var id = ConvertIdFromString(userId);
         var user = await _session.GetAsync<TUser>(id, cancellationToken);
-        
+
+        return user;
+    }
+
+    public virtual async Task<TUser?> FindByIdAsync(Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+
+        var user = await _session.GetAsync<TUser>(userId, cancellationToken);
+
         return user;
     }
 

@@ -1,6 +1,9 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using log4net;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
+using RecordedCourseSellingApp.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,13 @@ builder.Services
     .AddDataAccessLayer(connectionString)
     .AddServiceLayer();
 
+//Autoface Configure
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => {
+    containerBuilder.RegisterModule(new WebModule());
+});
+
+//Log4Net Configure
 builder.Logging.ClearProviders();
 builder.Logging.AddLog4Net();
 
