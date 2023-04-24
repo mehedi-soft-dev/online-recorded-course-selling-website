@@ -1,6 +1,9 @@
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using log4net;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
 using RecordedCourseSellingApp.Web;
@@ -15,7 +18,8 @@ builder.Services
 
 //Autoface Configure
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => {
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
     containerBuilder.RegisterModule(new WebModule());
 });
 
@@ -25,6 +29,28 @@ builder.Logging.AddLog4Net();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 0;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+    options.Lockout.MaxFailedAccessAttempts = 10;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+});
 
 var log = LogManager.GetLogger(typeof(Program));
 
