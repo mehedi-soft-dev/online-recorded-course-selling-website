@@ -15,7 +15,7 @@
             <p class="login-box-msg">Sign up as member</p>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <form id="SignUpForm" asp-antiforgery="true" asp-controller="Account" asp-action="SignUp" method="post">
-                
+
                 <input type="hidden" asp-for="ReturnUrl" />
 
                 <div class="input-group mb-3">
@@ -63,17 +63,13 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger input-group"></span>
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
+                    <div class="col-3">
                     </div>
                     <!-- /.col -->
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="submit" class="btn btn-danger btn-block">Sign Up</button>
+                    </div>
+                    <div class="col-3">
                     </div>
                     <!-- /.col -->
                 </div>
@@ -81,13 +77,14 @@
             <div class="text-center">
                 <br />
                 <p>-OR-</p>
-                <a asp-controller="Account" asp-action="SignIn" class="text-center">I already have a membership</a>
+                <a asp-controller="Account" asp-action="SignIn" class="text-center">Sign In</a>
             </div>
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
 </div>
 <!-- /.register-box -->
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
 }

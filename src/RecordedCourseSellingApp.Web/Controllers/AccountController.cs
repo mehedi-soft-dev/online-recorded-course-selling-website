@@ -25,14 +25,14 @@ public class AccountController : Controller
         _userManager = userManager;
         _signInManager = signInManager;
     }
-    
+
     [HttpGet]
     [AllowAnonymous]
     public IActionResult SignUp(string? returnUrl = null)
     {
         var model = _scope.Resolve<SignUpModel>();
         model.ReturnUrl = returnUrl;
-        
+
         return View(model);
     }
 
@@ -58,7 +58,7 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-                
+
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -106,7 +106,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-         
+
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
@@ -140,4 +140,5 @@ public class AccountController : Controller
         // If we got this far, something failed, redisplay form
         return View(model);
     }
+
 }
