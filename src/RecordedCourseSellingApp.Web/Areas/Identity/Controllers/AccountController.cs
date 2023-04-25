@@ -158,4 +158,11 @@ public class AccountController : Controller
 
         return RedirectToAction("Index", "Home", new { Area = "" });
     }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }
