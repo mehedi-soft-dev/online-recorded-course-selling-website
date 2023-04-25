@@ -11,4 +11,5 @@ public interface IUnitOfWork : IDisposable
     void Rollback();
 
     ICustomerRepository Customers { get; }
+    ICategoryRepository Categories { get; }
 }
