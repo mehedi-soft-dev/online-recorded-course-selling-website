@@ -24,6 +24,7 @@ public static class ConfigureServices
         
         //Register Repositories
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }

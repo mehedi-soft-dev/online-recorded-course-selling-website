@@ -1,4 +1,5 @@
 using Autofac;
+using RecordedCourseSellingApp.Web.Areas.Admin.Models;
 using RecordedCourseSellingApp.Web.Areas.Identity.Models;
 
 namespace RecordedCourseSellingApp.Web;
@@ -9,6 +10,7 @@ public class WebModule : Module
     {
         builder.RegisterType<SignUpModel>().AsSelf();
         builder.RegisterType<SignInModel>().AsSelf();
+        builder.RegisterType<CategoryCreateModel>().AsSelf();
         
         base.Load(builder);
     }

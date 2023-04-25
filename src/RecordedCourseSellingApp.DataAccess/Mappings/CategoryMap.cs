@@ -10,7 +10,7 @@ public class CategoryMap : ClassMapping<Category>
     public CategoryMap()
     {
         Schema("dbo");
-        Table("ApplicationRoleClaims");
+        Table("Categories");
         Id(x => x.Id, x =>
         {
             x.Generator(Generators.Guid);

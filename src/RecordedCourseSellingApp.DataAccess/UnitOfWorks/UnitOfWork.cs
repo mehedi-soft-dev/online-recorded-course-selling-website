@@ -19,19 +19,19 @@ public class UnitOfWork : IUnitOfWork
         _categoryRepository = categoryRepository;
     }
 
-    public void BeginTransaction()
+    public async Task BeginTransaction()
     {
-        _transaction.Begin();
+        await Task.Run(() => _transaction.Begin());
     }
 
-    public void Commit()
+    public async Task Commit()
     {
-        _transaction.Commit();
+        await Task.Run(() => _transaction.Commit());
     }
 
-    public void Rollback()
+    public async Task Rollback()
     {
-        _transaction.Rollback();
+        await Task.Run(() => _transaction.Rollback());
     }
 
     public void Dispose()
