@@ -31,8 +31,7 @@ public class ApplicationRoleClaimMap : ClassMapping<ApplicationRoleClaim>
         });
         Property(e => e.RoleId, prop => {
             prop.Column("RoleId");
-            prop.Type(NHibernateUtil.String);
-            prop.Length(32);
+            prop.Type(NHibernateUtil.Guid);
             prop.NotNullable(true);
         });
     }

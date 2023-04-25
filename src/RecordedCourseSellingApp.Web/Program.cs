@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
+using RecordedCourseSellingApp.Services.Services;
 using RecordedCourseSellingApp.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,6 @@ builder.Logging.AddLog4Net();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -68,6 +68,9 @@ try
 {
     var app = builder.Build();
     log.Info("Application Starting up..");
+
+    //Data Seeding
+    await app.Services.GetService<ISeedingService>()!.Seed();
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())

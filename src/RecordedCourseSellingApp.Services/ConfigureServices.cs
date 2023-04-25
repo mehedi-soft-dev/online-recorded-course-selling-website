@@ -9,6 +9,7 @@ public static class ConfigureServices
     {
         //Service
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<ISeedingService, SeedingService>();
         
         return services;
     }
