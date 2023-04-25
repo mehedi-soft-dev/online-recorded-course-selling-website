@@ -1,5 +1,4 @@
 using Autofac;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +58,8 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
+                
+                await _userManager.AddToRoleAsync(user, "User");
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
