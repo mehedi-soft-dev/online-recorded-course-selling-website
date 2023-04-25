@@ -19,6 +19,9 @@
             border-top: 0px solid #D10024;
         }
     </style>
+
+    @await RenderSectionAsync("Styles", required:false)
+
 </head>
 <body class="hold-transition register-page">
     @RenderBody()
@@ -29,6 +32,9 @@
     <script src="~/common/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/common/js/adminlte.min.js"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
