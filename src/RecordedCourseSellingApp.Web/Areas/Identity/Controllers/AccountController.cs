@@ -42,7 +42,6 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> SignUp(SignUpModel model)
     {
-        model.ReturnUrl ??= Url.Content("~/");
         if (ModelState.IsValid)
         {
             model.ResolveDependency(_scope);
@@ -76,6 +75,9 @@ public class AccountController : Controller
                 else
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    if(model.ReturnUrl == null)
+                        return RedirectToAction("Index", "Home", new {Area = ""});
+
                     return RedirectToAction(model.ReturnUrl);
                 }
             }
@@ -91,7 +93,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(string? returnUrl = null)
+    public async Task<IActionResult> SignIn(string? returnUrl = null)
     {
         var model = _scope.Resolve<SignInModel>();
         model.ReturnUrl = returnUrl;
@@ -103,7 +105,7 @@ public class AccountController : Controller
 
     [HttpPost, ValidateAntiForgeryToken]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(SignInModel model)
+    public async Task<IActionResult> SignIn(SignInModel model)
     {
         model.ReturnUrl ??= Url.Content("~/");
 
