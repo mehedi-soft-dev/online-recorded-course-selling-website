@@ -1,4 +1,5 @@
-﻿using RecordedCourseSellingApp.Services.BusinessObjects;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RecordedCourseSellingApp.Services.BusinessObjects;
 
 namespace RecordedCourseSellingApp.Services.Services;
 
@@ -16,4 +17,6 @@ public interface ICategoryService
     Task EditCategoryAsync(Category category);
 
     Task<IList<Category>> GetAllCategoriesAsync();
+
+    Task<IEnumerable<SelectListItem>> GetCategoriesAsDdlAsync();
 }

@@ -25,6 +25,6 @@ public interface IRepository<T, in TKey>
     Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
     
     Task<(IList<T> data, int total, int totalDisplay)> GetByPagingAsync(
-        Expression<Func<T, bool>> filter = null!, string orderBy = null!, 
-        int pageIndex = 1, int pageSize = 10);
+        Expression<Func<T, bool>> filter = null!, string orderBy = null!,int pageIndex = 1, 
+        int pageSize = 10, Expression<Func<T, object>>? objectSelector = null);
 }

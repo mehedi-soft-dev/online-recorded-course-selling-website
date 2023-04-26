@@ -39,7 +39,7 @@ public class Repository<T, TKey> : IRepository<T, TKey>
 
     public virtual async Task<(IList<T> data, int total, int totalDisplay)> 
         GetByPagingAsync(Expression<Func<T, bool>> filter = null!, string orderBy = null!, 
-            int pageIndex = 1, int pageSize = 10)
+            int pageIndex = 1, int pageSize = 10, Expression<Func<T, object>>? objectSelector = null)
     {
         IQueryable<T> query = _session.Query<T>();
         var total = query.Count();
@@ -50,6 +50,8 @@ public class Repository<T, TKey> : IRepository<T, TKey>
             query = query.Where(filter);
             totalDisplay = query.Count();
         }
+        if (objectSelector != null)
+            query = query.Fetch(objectSelector);
 
         if (orderBy != null)
         {

@@ -17,12 +17,17 @@ internal class CourseService : ICourseService
 
     public async Task CreateCourseAsync(Course course)
     {
-        var searchedObject = await _unitOfWork.Courses.GetSingleAsync(x => x.Title == course.Title);
+        var courseEntity = await _unitOfWork.Courses.GetSingleAsync(x => x.Title == course.Title);
+        var category = await _unitOfWork.Categories.GetSingleAsync(course.CategoryId);
 
-        if (searchedObject is not null)
+        if (courseEntity is not null)
             throw new DuplicationExeption("Course name already exits");
 
+        if (category is null)
+            throw new Exception("Category not found");
+
         var entity = course.Adapt<CourseEO>();
+        entity.Category = category;
 
         await _unitOfWork.BeginTransaction();
         await _unitOfWork.Courses.AddAsync(entity);
@@ -44,11 +49,16 @@ internal class CourseService : ICourseService
     public async Task EditCourseAsync(Course course)
     {
         var entity = await _unitOfWork.Courses.GetSingleAsync(course.Id);
+        var category = await _unitOfWork.Categories.GetSingleAsync(course.CategoryId);
 
         if (entity is null)
             throw new Exception("Course Not Found");
 
+        if (category is null)
+            throw new Exception("Category Not found");
+
         course.Adapt(entity);
+        entity.Category = category;
 
         await _unitOfWork.BeginTransaction();
         await _unitOfWork.Courses.AddOrUpdateAsync(entity);
@@ -65,7 +75,7 @@ internal class CourseService : ICourseService
     {
         var results = await _unitOfWork
             .Courses
-            .GetByPagingAsync(x => x.Title.Contains(searchText), orderby, pageIndex, pageSize);
+            .GetByPagingAsync(x => x.Title.Contains(searchText), orderby, pageIndex, pageSize, x => x.Category);
 
         var courses = new List<Course>();
 

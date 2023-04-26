@@ -31,6 +31,18 @@ public class CourseMap : ClassMapping<Course>
             x.Type<EnumType<DifficultyLevel>>();
             x.NotNullable(true);
         });
+        Property(b => b.ThumbnailImage, x =>
+        {
+            x.Length(256);
+            x.Type(NHibernateUtil.StringClob);
+            x.NotNullable(false);
+        });
+        Property(b => b.VideoUrl, x =>
+        {
+            x.Length(256);
+            x.Type(NHibernateUtil.StringClob);
+            x.NotNullable(true);
+        });
         Property(b => b.Description, x =>
         {
             x.Length(256);
@@ -38,14 +50,15 @@ public class CourseMap : ClassMapping<Course>
         });
         Property(b => b.Price, x =>
         {
-            x.Length(5000);
-            x.Type(NHibernateUtil.Decimal);
+            x.Type(NHibernateUtil.Int32);
+            x.NotNullable(true);
         });
         ManyToOne(x => x.Category, m =>
         {
             m.Column("CategoryId");
             m.Class(typeof(Category));
             m.Cascade(Cascade.Persist);
+            m.NotNullable(true);
         });
     }
 }

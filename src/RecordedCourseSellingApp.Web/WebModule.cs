@@ -14,7 +14,11 @@ public class WebModule : Module
         builder.RegisterType<CategoryCreateModel>().AsSelf();
         builder.RegisterType<CategoryListModel>().AsSelf();
         builder.RegisterType<CategoryEditModel>().AsSelf();
-        
+
+        builder.RegisterType<CourseCreateModel>().AsSelf();
+        builder.RegisterType<CourseListModel>().AsSelf();
+        builder.RegisterType<CourseEditModel>().AsSelf();
+
         base.Load(builder);
     }
 }

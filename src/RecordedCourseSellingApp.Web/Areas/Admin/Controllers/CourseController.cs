@@ -10,12 +10,12 @@ namespace RecordedCourseSellingApp.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Roles = "Admin")]
-public class CategoryController : Controller
+public class CourseController : Controller
 {
-    private readonly ILogger<CategoryController> _logger;
+    private readonly ILogger<CourseController> _logger;
     private readonly ILifetimeScope _scope;
 
-    public CategoryController(ILogger<CategoryController> logger, ILifetimeScope scope)
+    public CourseController(ILogger<CourseController> logger, ILifetimeScope scope)
     {
         _logger = logger;
         _scope = scope;
@@ -26,41 +26,45 @@ public class CategoryController : Controller
         return View();
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        var model = _scope.Resolve<CategoryCreateModel>();
+        var model = _scope.Resolve<CourseCreateModel>();
+        await model.LoadDdlAsync();
 
         return View(model);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CategoryCreateModel model)
+    public async Task<IActionResult> Create(CourseCreateModel model, IFormFile file)
     {
+        model.ResolveDependency(_scope);
+
+        if (file is not null)
+            model.ThumbnailImage = await model.UploadFileAsync(file);
+
         if (ModelState.IsValid)
         {
             try
             {
-                model.ResolveDependency(_scope);
-
-                await model.CreateCategoryAsync();
+                await model.CreateCourseAsync();
 
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
-                    Message = "New category successfully created",
+                    Message = "New course successfully created",
                     Type = ResponseTypes.Success
                 });
             }
-            catch(DuplicationExeption ex)
+            catch (DuplicationExeption ex)
             {
                 ModelState.AddModelError("Name", ex.Message);
                 return View(model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
-                    Message = "There is a problem in creating category",
+                    Message = "There is a problem in creating course",
                     Type = ResponseTypes.Danger
                 });
             }
@@ -76,8 +80,9 @@ public class CategoryController : Controller
     {
         try
         {
-            var model = _scope.Resolve<CategoryEditModel>();
+            var model = _scope.Resolve<CourseEditModel>();
             await model.LoadDataAsync(id);
+            await model.LoadDdlAsync();
 
             return View(model);
         }
@@ -86,7 +91,7 @@ public class CategoryController : Controller
             _logger.LogError(ex, ex.Message);
             TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
             {
-                Message = "There is a problem in editing category",
+                Message = "There is a problem in editing course",
                 Type = ResponseTypes.Danger
             });
         }
@@ -95,28 +100,32 @@ public class CategoryController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(CategoryEditModel model)
+    public async Task<IActionResult> Edit(CourseEditModel model, IFormFile? file)
     {
+        model.ResolveDependency(_scope);
+
+        if (file is not null)
+            model.ThumbnailImage = await model.UploadFileAsync(file);
+
         if (ModelState.IsValid)
         {
             try
             {
-                model.ResolveDependency(_scope);
-                await model.EditCategoryAsync();
+                await model.EditCourseAsync();
 
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
-                    Message = "Category successfully edited",
+                    Message = "Course successfully edited",
                     Type = ResponseTypes.Success
                 });
-                
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
                 {
-                    Message = "There is a problem in editing category",
+                    Message = "There is a problem in editing course",
                     Type = ResponseTypes.Danger
                 });
             }
@@ -124,6 +133,7 @@ public class CategoryController : Controller
             return RedirectToAction(nameof(Index));
         }
 
+        await model.LoadDdlAsync();
         return View(model);
     }
 
@@ -132,12 +142,12 @@ public class CategoryController : Controller
     {
         try
         {
-            var model = _scope.Resolve<CategoryListModel>();
-            await model.DeleteCategoryAsync(id);
+            var model = _scope.Resolve<CourseListModel>();
+            await model.DeleteCourseAsync(id);
 
             TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
             {
-                Message = "Category successfully deleted",
+                Message = "Course successfully deleted",
                 Type = ResponseTypes.Success
             });
         }
@@ -146,7 +156,7 @@ public class CategoryController : Controller
             _logger.LogError(ex, ex.Message);
             TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
             {
-                Message = "There is a problem in deleting category",
+                Message = "There is a problem in deleting course",
                 Type = ResponseTypes.Danger
             });
         }
@@ -154,10 +164,10 @@ public class CategoryController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<JsonResult> GetCategoryData()
+    public async Task<JsonResult> GetCourseData()
     {
         var dataTableModel = new DataTablesAjaxRequestModel(Request);
-        var model = _scope.Resolve<CategoryListModel>();
+        var model = _scope.Resolve<CourseListModel>();
         return Json(await model.GetCategoriesPagedData(dataTableModel));
     }
 }
