@@ -23,7 +23,7 @@ public static class ConfigureServices
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         //Register Repositories
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }

@@ -108,8 +108,6 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> SignIn(SignInModel model)
     {
-        model.ReturnUrl ??= Url.Content("~/");
-
         if (ModelState.IsValid)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -121,7 +119,11 @@ public class AccountController : Controller
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
                     _logger.LogInformation("Admin Logged In");
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+
+                    if(model.ReturnUrl != null)
+                        return LocalRedirect(model.ReturnUrl);
+
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                 }
 
                 _logger.LogInformation("User logged in.");

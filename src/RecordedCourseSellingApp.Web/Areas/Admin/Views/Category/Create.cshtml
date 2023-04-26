@@ -1,0 +1,57 @@
+﻿@model CategoryCreateModel
+
+@{
+    ViewData["Title"] = "New Category";
+    ViewData["Header"] = "Category";
+    ViewData["Breadcrumb"] = "Create new category";
+}
+
+<!-- Content-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">New Category</h3>
+                        <a class="btn btn-sm btn-success float-right" asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="nav-icon fas fa-table"></i></> Category List</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-area="Admin" asp-controller="Category" asp-action="Create" asp-antiforgery="true" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Name"></label>
+                                        <input type="text" class="form-control" asp-for="Name" placeholder="Enter Category Name">
+                                        <span asp-validation-for="Name" class="text-danger input-group"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Description"></label>
+                                        <textarea class="form-control" asp-for="Description" placeholder="Enter Category Description"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="IsActive"></label>
+                                        <input type="checkbox" asp-for="IsActive" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        <span asp-validation-for="IsActive" class="text-danger input-group"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-block btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Content -->

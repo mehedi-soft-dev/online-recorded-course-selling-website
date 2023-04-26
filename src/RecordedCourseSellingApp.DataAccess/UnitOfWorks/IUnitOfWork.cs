@@ -4,11 +4,11 @@ namespace RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 
 public interface IUnitOfWork : IDisposable
 {
-    void BeginTransaction();
+    Task BeginTransaction();
     
-    void Commit();
+    Task Commit();
     
-    void Rollback();
+    Task Rollback();
 
-    ICustomerRepository Customers { get; }
+    ICategoryRepository Categories { get; }
 }

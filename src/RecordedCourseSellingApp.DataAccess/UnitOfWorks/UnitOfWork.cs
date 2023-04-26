@@ -7,28 +7,29 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ISession _session;
     private readonly ITransaction _transaction;
-    private ICustomerRepository _customerRepository;
+    private ICategoryRepository _categoryRepository;
 
-    public UnitOfWork(ISession session, ICustomerRepository customerRepository)
+    public UnitOfWork(ISession session,
+        ICategoryRepository categoryRepository)
     {
         _session = session;
         _transaction = _session.BeginTransaction();
-        _customerRepository = customerRepository;
+        _categoryRepository = categoryRepository;
     }
 
-    public void BeginTransaction()
+    public async Task BeginTransaction()
     {
-        _transaction.Begin();
+        await Task.Run(() => _transaction.Begin());
     }
 
-    public void Commit()
+    public async Task Commit()
     {
-        _transaction.Commit();
+        await Task.Run(() => _transaction.Commit());
     }
 
-    public void Rollback()
+    public async Task Rollback()
     {
-        _transaction.Rollback();
+        await Task.Run(() => _transaction.Rollback());
     }
 
     public void Dispose()
@@ -37,5 +38,5 @@ public class UnitOfWork : IUnitOfWork
         _session.Dispose();
     }
 
-    public ICustomerRepository Customers => _customerRepository;
+    public ICategoryRepository Categories => _categoryRepository;
 }
