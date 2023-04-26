@@ -1,16 +1,16 @@
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.DataAccess.Mappings;
 
-public class CategoryMap : ClassMapping<Category>
+public class CourseMap : ClassMapping<Course>
 {
-    public CategoryMap()
+    public CourseMap()
     {
         Schema("dbo");
-        Table("Categories");
+        Table("Courses");
         Id(x => x.Id, x =>
         {
             x.Generator(Generators.Guid);
@@ -18,7 +18,7 @@ public class CategoryMap : ClassMapping<Category>
             x.Column("Id");
             x.UnsavedValue(Guid.Empty);
         });
-        Property(b => b.Name, x =>
+        Property(b => b.Title, x =>
         {
             x.Length(50);
             x.Type(NHibernateUtil.StringClob);
@@ -29,16 +29,16 @@ public class CategoryMap : ClassMapping<Category>
             x.Length(256);
             x.Type(NHibernateUtil.StringClob);
         });
-        Property(b => b.IsActive, x =>
+        Property(b => b.Price, x =>
         {
-            x.Type(NHibernateUtil.Boolean);
-            x.NotNullable(true);
+            x.Length(5000);
+            x.Type(NHibernateUtil.Decimal);
         });
-        Bag(x => x.Courses, m =>
+        ManyToOne(x => x.Category, m =>
         {
-            m.Key(k => k.Column("CategoryId"));
-            m.Cascade(Cascade.All | Cascade.DeleteOrphans);
-            m.Inverse(true);
-        }, r => r.OneToMany());
+            m.Column("CategoryId");
+            m.Class(typeof(Category));
+            m.Cascade(Cascade.Persist);
+        });
     }
 }
