@@ -24,15 +24,24 @@ public class CategoryController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
         var model = _scope.Resolve<CategoryCreateModel>();
-        model.Name = "Programming";
-        model.Description = "This is test description";
 
-        await model.CreateCategory();
+        return View(model);
+    }
 
-        return View();
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CategoryCreateModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            model.ResolveDependency(_scope);
+
+            await model.CreateCategoryAsync();
+        }
+
+        return View(model);
     }
 
     public async Task<JsonResult> GetCategoryData()

@@ -13,6 +13,8 @@ public class CategoryCreateModel : BaseModel
             StringLength(200, ErrorMessage = "Name should be less than 200 characters")]
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
+
+    [Display(Name ="Is Active")]
     public bool IsActive { get; set; }
     
     private ICategoryService? _categoryService;
@@ -33,7 +35,7 @@ public class CategoryCreateModel : BaseModel
         _categoryService = _scope.Resolve<ICategoryService>();
     }
 
-    internal async Task CreateCategory()
+    internal async Task CreateCategoryAsync()
     {
         Category course = this.Adapt<Category>();
         await _categoryService!.CreateCategoryAsync(course);
