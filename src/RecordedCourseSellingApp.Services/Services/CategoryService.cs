@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using NHibernate.Criterion;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
 using CategoryEO = RecordedCourseSellingApp.DataAccess.Entities.Category;
@@ -43,9 +44,21 @@ public class CategoryService : ICategoryService
         throw new NotImplementedException();
     }
 
-    public async Task<(int total, int totalDisplay, IList<Category> records)> GetCategoriesByPagingAsync(int pageIndex, int pageSize, string searchText, string orderby)
+    public async Task<(int total, int totalDisplay, IList<Category> records)> 
+        GetCategoriesByPagingAsync(int pageIndex, int pageSize, string searchText, string orderby)
     {
-        throw new NotImplementedException();
+        var results = await _unitOfWork
+            .Categories
+            .GetByPagingAsync(x => x.Name.Contains(searchText), orderby, pageIndex, pageSize);
+
+        var categories = new List<Category>();
+
+        foreach (var category in results.data)
+        {
+            categories.Add(category.Adapt<Category>());
+        }
+
+        return (results.total, results.totalDisplay, categories);
     }
 
     public async Task<Category?> GetCategoryByIdAsync(Guid id)

@@ -11,6 +11,7 @@ public class WebModule : Module
         builder.RegisterType<SignUpModel>().AsSelf();
         builder.RegisterType<SignInModel>().AsSelf();
         builder.RegisterType<CategoryCreateModel>().AsSelf();
+        builder.RegisterType<CategoryListModel>().AsSelf();
         
         base.Load(builder);
     }

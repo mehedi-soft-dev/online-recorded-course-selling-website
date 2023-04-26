@@ -29,5 +29,10 @@ public class CategoryMap : ClassMapping<Category>
             x.Length(256);
             x.Type(NHibernateUtil.StringClob);
         });
+        Property(b => b.IsActive, x =>
+        {
+            x.Type(NHibernateUtil.Boolean);
+            x.NotNullable(true);
+        });
     }
 }
