@@ -11,4 +11,5 @@ public interface IUnitOfWork : IDisposable
     Task Rollback();
 
     ICategoryRepository Categories { get; }
+    ICourseRepository Courses { get; }
 }
