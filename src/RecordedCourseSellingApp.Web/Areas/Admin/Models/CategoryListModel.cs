@@ -25,6 +25,11 @@ public class CategoryListModel : BaseModel
         _categoryService = _scope.Resolve<ICategoryService>();
     }
 
+    internal async Task DeleteCategoryAsync(Guid id)
+    {
+        await _categoryService.DeleteCategoryAsync(id);
+    }
+
     internal async Task<object?> GetCategoriesPagedData(DataTablesAjaxRequestModel dataTablesModel)
     {
         var data = await _categoryService.GetCategoriesByPagingAsync(

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Linq;
 using RecordedCourseSellingApp.DataAccess.Entities;
@@ -28,6 +27,9 @@ public class Repository<T, TKey> : IRepository<T, TKey>
     public async Task MergeAsync(T entity) => await _session.MergeAsync(entity);
     
     public async Task<T?> GetSingleAsync(TKey id) => await _session.GetAsync<T>(id);
+
+    public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate) => 
+        await _session.QueryOver<T>().Where(predicate).SingleOrDefaultAsync();
     
     public async Task<IEnumerable<T>> GetAllAsync() => 
         await Task.Run(() =>_session.Query<T>().ToList());

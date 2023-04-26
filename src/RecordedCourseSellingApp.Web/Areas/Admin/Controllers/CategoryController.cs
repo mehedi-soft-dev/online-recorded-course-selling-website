@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecordedCourseSellingApp.Shared.Exceptions;
 using RecordedCourseSellingApp.Web.Areas.Admin.Models;
 using RecordedCourseSellingApp.Web.Extensions;
 using RecordedCourseSellingApp.Web.Models;
@@ -37,18 +38,34 @@ public class CategoryController : Controller
     {
         if (ModelState.IsValid)
         {
-            model.ResolveDependency(_scope);
-
-            await model.CreateCategoryAsync();
-
-            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            try
             {
-                Message = "New category successfully created",
-                Type = ResponseTypes.Success
-            });
+                model.ResolveDependency(_scope);
+
+                await model.CreateCategoryAsync();
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "New category successfully created",
+                    Type = ResponseTypes.Success
+                });
+            }
+            catch(DuplicationExeption ex)
+            {
+                ModelState.AddModelError("Name", ex.Message);
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "There is a problem in editing category",
+                    Type = ResponseTypes.Danger
+                });
+            }
 
             return RedirectToAction(nameof(Index));
-
         }
 
         return View(model);
@@ -57,10 +74,24 @@ public class CategoryController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var model = _scope.Resolve<CategoryEditModel>();
-        await model.LoadDataAsync(id);
+        try
+        {
+            var model = _scope.Resolve<CategoryEditModel>();
+            await model.LoadDataAsync(id);
 
-        return View(model);
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            {
+                Message = "There is a problem in editing category",
+                Type = ResponseTypes.Danger
+            });
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -68,19 +99,59 @@ public class CategoryController : Controller
     {
         if (ModelState.IsValid)
         {
-            model.ResolveDependency(_scope);
-            await model.EditCategoryAsync();
-
-            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            try
             {
-                Message = "Category successfully edited",
-                Type = ResponseTypes.Success
-            });
+                model.ResolveDependency(_scope);
+                await model.EditCategoryAsync();
+
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "Category successfully edited",
+                    Type = ResponseTypes.Success
+                });
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+                {
+                    Message = "There is a problem in editing category",
+                    Type = ResponseTypes.Danger
+                });
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
         return View(model);
+    }
+
+    [ValidateAntiForgeryToken, HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            var model = _scope.Resolve<CategoryListModel>();
+            await model.DeleteCategoryAsync(id);
+
+            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            {
+                Message = "Category successfully deleted",
+                Type = ResponseTypes.Success
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            {
+                Message = "There is a problem in deleting category",
+                Type = ResponseTypes.Danger
+            });
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<JsonResult> GetCategoryData()

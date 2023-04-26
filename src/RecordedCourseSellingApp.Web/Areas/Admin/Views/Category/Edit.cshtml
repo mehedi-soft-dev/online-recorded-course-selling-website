@@ -34,7 +34,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="IsActive"></label>
-                                        <input type="checkbox" asp-for="IsActive" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        @if (Model.IsActive)
+                                        {
+                                            <input type="checkbox" asp-for="IsActive" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" asp-for="IsActive" data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        }
                                         <span asp-validation-for="IsActive" class="text-danger input-group"></span>
                                     </div>
                                 </div>

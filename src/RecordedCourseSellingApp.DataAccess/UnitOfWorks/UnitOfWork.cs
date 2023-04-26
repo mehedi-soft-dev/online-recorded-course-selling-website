@@ -7,15 +7,13 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ISession _session;
     private readonly ITransaction _transaction;
-    private ICustomerRepository _customerRepository;
     private ICategoryRepository _categoryRepository;
 
-    public UnitOfWork(ISession session, ICustomerRepository customerRepository, 
+    public UnitOfWork(ISession session,
         ICategoryRepository categoryRepository)
     {
         _session = session;
         _transaction = _session.BeginTransaction();
-        _customerRepository = customerRepository;
         _categoryRepository = categoryRepository;
     }
 
@@ -40,6 +38,5 @@ public class UnitOfWork : IUnitOfWork
         _session.Dispose();
     }
 
-    public ICustomerRepository Customers => _customerRepository;
     public ICategoryRepository Categories => _categoryRepository;
 }

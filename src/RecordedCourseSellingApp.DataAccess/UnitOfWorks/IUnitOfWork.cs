@@ -10,6 +10,5 @@ public interface IUnitOfWork : IDisposable
     
     Task Rollback();
 
-    ICustomerRepository Customers { get; }
     ICategoryRepository Categories { get; }
 }

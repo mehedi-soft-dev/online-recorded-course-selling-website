@@ -1,7 +1,7 @@
 ﻿using Mapster;
-using NHibernate.Criterion;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
+using RecordedCourseSellingApp.Shared.Exceptions;
 using CategoryEO = RecordedCourseSellingApp.DataAccess.Entities.Category;
 
 namespace RecordedCourseSellingApp.Services.Services;
@@ -17,6 +17,11 @@ public class CategoryService : ICategoryService
 
     public async Task CreateCategoryAsync(Category category)
     {
+        var searchedObject = await _unitOfWork.Categories.GetSingleAsync(x => x.Name == category.Name);
+
+        if (searchedObject is not null)
+            throw new DuplicationExeption("Category name already exits");
+
         var entity = category.Adapt<CategoryEO>();
 
         await _unitOfWork.BeginTransaction();
@@ -26,7 +31,14 @@ public class CategoryService : ICategoryService
 
     public async Task DeleteCategoryAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var entity = await _unitOfWork.Categories.GetSingleAsync(id);
+
+        if (entity is null)
+            throw new Exception("Category not found");
+
+        await _unitOfWork.BeginTransaction();
+        await _unitOfWork.Categories.DeleteAsync(entity);
+        await _unitOfWork.Commit();
     }
 
     public async Task EditCategoryAsync(Category category)
@@ -44,11 +56,6 @@ public class CategoryService : ICategoryService
     }
 
     public async Task<IList<Category>> GetAllCategoriesAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<(int total, int totalDisplay, IList<Category> records)> GetCategoriesByPagingAdvancedAsync(int pageIndex, int pageSize, string name, string orderby)
     {
         throw new NotImplementedException();
     }
@@ -75,10 +82,5 @@ public class CategoryService : ICategoryService
         var category = await _unitOfWork.Categories.GetSingleAsync(id);
 
         return category!.Adapt<Category>();
-    }
-
-    public async Task<Category> GetCategoryByNameAsync(string name)
-    {
-        throw new NotImplementedException();
     }
 }

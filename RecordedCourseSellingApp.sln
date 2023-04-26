@@ -1,22 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A89E9645-0051-42B1-A110-64A6ACE68B47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordedCourseSellingApp.Web", "src\RecordedCourseSellingApp.Web\RecordedCourseSellingApp.Web.csproj", "{4FA4D1FB-33E0-4C60-B396-EBB61116B627}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecordedCourseSellingApp.Web", "src\RecordedCourseSellingApp.Web\RecordedCourseSellingApp.Web.csproj", "{4FA4D1FB-33E0-4C60-B396-EBB61116B627}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordedCourseSellingApp.DataAccess", "src\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj", "{0FE2BC68-0D77-48E9-B47E-79F647263D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecordedCourseSellingApp.DataAccess", "src\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj", "{0FE2BC68-0D77-48E9-B47E-79F647263D99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordedCourseSellingApp.Services", "src\RecordedCourseSellingApp.Services\RecordedCourseSellingApp.Services.csproj", "{15CD154A-FFD3-4663-B5AA-E1FF0AED8485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecordedCourseSellingApp.Services", "src\RecordedCourseSellingApp.Services\RecordedCourseSellingApp.Services.csproj", "{15CD154A-FFD3-4663-B5AA-E1FF0AED8485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecordedCourseSellingApp.Shared", "RecordedCourseSellingApp.Shared\RecordedCourseSellingApp.Shared.csproj", "{DB0BCF96-83FA-464E-A1E9-0766D722DA0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{4FA4D1FB-33E0-4C60-B396-EBB61116B627} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
-		{0FE2BC68-0D77-48E9-B47E-79F647263D99} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
-		{15CD154A-FFD3-4663-B5AA-E1FF0AED8485} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4FA4D1FB-33E0-4C60-B396-EBB61116B627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -31,5 +31,21 @@ Global
 		{15CD154A-FFD3-4663-B5AA-E1FF0AED8485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15CD154A-FFD3-4663-B5AA-E1FF0AED8485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15CD154A-FFD3-4663-B5AA-E1FF0AED8485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0BCF96-83FA-464E-A1E9-0766D722DA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0BCF96-83FA-464E-A1E9-0766D722DA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0BCF96-83FA-464E-A1E9-0766D722DA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0BCF96-83FA-464E-A1E9-0766D722DA0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4FA4D1FB-33E0-4C60-B396-EBB61116B627} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
+		{0FE2BC68-0D77-48E9-B47E-79F647263D99} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
+		{15CD154A-FFD3-4663-B5AA-E1FF0AED8485} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
+		{DB0BCF96-83FA-464E-A1E9-0766D722DA0C} = {A89E9645-0051-42B1-A110-64A6ACE68B47}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAD9B5C9-8871-4819-88EF-A5C404806BDF}
 	EndGlobalSection
 EndGlobal

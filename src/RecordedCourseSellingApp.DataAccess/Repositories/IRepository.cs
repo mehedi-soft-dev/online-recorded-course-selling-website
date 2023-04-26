@@ -17,6 +17,8 @@ public interface IRepository<T, in TKey>
     Task MergeAsync(T entity);
     
     Task<T?> GetSingleAsync(TKey id);
+
+    Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate);
     
     Task<IEnumerable<T>> GetAllAsync();
     

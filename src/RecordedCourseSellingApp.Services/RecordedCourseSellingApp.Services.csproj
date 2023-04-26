@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\RecordedCourseSellingApp.Shared\RecordedCourseSellingApp.Shared.csproj" />
       <ProjectReference Include="..\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj" />
     </ItemGroup>
 

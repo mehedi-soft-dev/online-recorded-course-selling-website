@@ -11,7 +11,6 @@ public static class ConfigureServices
         services.AddMapster();
 
         //Service
-        services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<ISeedingService, SeedingService>();
         services.AddScoped<ICategoryService, CategoryService>();
         
