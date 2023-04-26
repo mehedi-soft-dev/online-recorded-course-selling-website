@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Shared.Exceptions;
@@ -82,5 +83,18 @@ public class CategoryService : ICategoryService
         var category = await _unitOfWork.Categories.GetSingleAsync(id);
 
         return category!.Adapt<Category>();
+    }
+
+    public async Task<IEnumerable<SelectListItem>> GetCategoriesAsDdlAsync()
+    {
+        var categories = await _unitOfWork.Categories.GetAllAsync();
+
+        IEnumerable<SelectListItem> datas = categories.Select(n => new SelectListItem
+        {
+            Value = n.Id.ToString(),
+            Text = n.Name,
+        }).Distinct().ToList();
+
+        return new SelectList(datas, "Value", "Text");
     }
 }

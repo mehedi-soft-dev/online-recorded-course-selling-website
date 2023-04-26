@@ -1,0 +1,87 @@
+﻿@model CourseCreateModel
+
+@{
+    ViewData["Title"] = "New Course";
+    ViewData["Header"] = "Course";
+    ViewData["Breadcrumb"] = "Create new course";
+}
+
+<!-- Content-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">New Course</h3>
+                        <a class="btn btn-sm btn-success float-right" asp-area="Admin" asp-controller="Course" asp-action="Index"><i class="nav-icon fas fa-table"></i></> Course List</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-area="Admin" asp-controller="Course" asp-action="Create" asp-antiforgery="true" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="CategoryId"></label>
+                                        <select class="form-select-sm form-control" asp-for="CategoryId" asp-items="@Model.CategoryDdl">
+                                            <option disabled selected>--- SELECT ---</option>
+                                        </select>
+                                        <span asp-validation-for="CategoryId" class="text-danger input-group"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="DifficultyLevel"></label>
+                                        <select class="form-select-sm form-control" asp-for="DifficultyLevel" asp-items="@Model.DificultyLevelDdl">
+                                            <option disabled selected>--- SELECT ---</option>
+                                        </select>
+                                        <span asp-validation-for="DifficultyLevel" class="text-danger input-group"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Price"></label>
+                                        <input type="number" asp-for="Price" class="form-control" placeholder="Enter Course Price"/>
+                                        <span asp-validation-for="Price" class="text-danger input-group"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Title"></label>
+                                        <input type="text" class="form-control" asp-for="Title" placeholder="Enter Course Title">
+                                        <span asp-validation-for="Title" class="text-danger input-group"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="VideoUrl"></label>
+                                        <input type="text" class="form-control" asp-for="VideoUrl" placeholder="Enter Course Title">
+                                        <span asp-validation-for="VideoUrl" class="text-danger input-group"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="ThumbnailImage"></label>
+                                        <input type="file" name="file" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Description"></label>
+                                        <textarea class="form-control" asp-for="Description" placeholder="Enter Course Description"></textarea>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-block btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Content -->

@@ -15,4 +15,8 @@
       <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\RecordedCourseSellingApp.Shared\RecordedCourseSellingApp.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

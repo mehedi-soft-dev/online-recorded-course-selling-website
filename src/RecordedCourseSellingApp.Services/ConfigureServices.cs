@@ -10,9 +10,13 @@ public static class ConfigureServices
         //Register Mapster
         services.AddMapster();
 
+        //Register BufferedFileUploadService
+        services.AddScoped<IBufferedFileUploadService, BufferedFileUploadService>();
+
         //Service
         services.AddScoped<ISeedingService, SeedingService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICourseService, CourseService>();
         
         return services;
     }

@@ -34,5 +34,11 @@ public class CategoryMap : ClassMapping<Category>
             x.Type(NHibernateUtil.Boolean);
             x.NotNullable(true);
         });
+        Bag(x => x.Courses, m =>
+        {
+            m.Key(k => k.Column("CategoryId"));
+            m.Cascade(Cascade.All | Cascade.DeleteOrphans);
+            m.Inverse(true);
+        }, r => r.OneToMany());
     }
 }
