@@ -1,7 +1,9 @@
 ﻿using NHibernate;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
+using NHibernate.Type;
 using RecordedCourseSellingApp.DataAccess.Entities;
+using RecordedCourseSellingApp.Shared.Enums;
 
 namespace RecordedCourseSellingApp.DataAccess.Mappings;
 
@@ -22,6 +24,11 @@ public class CourseMap : ClassMapping<Course>
         {
             x.Length(50);
             x.Type(NHibernateUtil.StringClob);
+            x.NotNullable(true);
+        });
+        Property(b => b.DifficultyLevel, x =>
+        {
+            x.Type<EnumType<DifficultyLevel>>();
             x.NotNullable(true);
         });
         Property(b => b.Description, x =>
