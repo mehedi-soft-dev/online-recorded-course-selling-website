@@ -1,9 +1,9 @@
-﻿@model CategoryCreateModel
+﻿@model CategoryEditModel
 
 @{
-    ViewData["Title"] = "New Category";
+    ViewData["Title"] = "Edit Category";
     ViewData["Header"] = "Category";
-    ViewData["Breadcrumb"] = "Create new category";
+    ViewData["Breadcrumb"] = "Edit category";
 }
 
 <!-- Content-->
@@ -13,12 +13,13 @@
             <div class="col-md-6">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">New Category</h3>
+                        <h3 class="card-title">Edit Category</h3>
                         <a class="btn btn-sm btn-success float-right" asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="nav-icon fas fa-table"></i></> Category List</a>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form asp-area="Admin" asp-controller="Category" asp-action="Create" asp-antiforgery="true" method="post">
+                    <form asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-antiforgery="true" method="post">
+                        <input type="hidden" asp-for="Id" />
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">

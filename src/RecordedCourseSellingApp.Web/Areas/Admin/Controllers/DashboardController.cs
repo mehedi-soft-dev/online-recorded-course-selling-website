@@ -5,7 +5,7 @@ namespace RecordedCourseSellingApp.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Roles ="Admin")]
-public class HomeController : Controller
+public class DashboardController : Controller
 {
     public IActionResult Index()
     {

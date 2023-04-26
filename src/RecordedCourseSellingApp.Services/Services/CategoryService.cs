@@ -31,7 +31,16 @@ public class CategoryService : ICategoryService
 
     public async Task EditCategoryAsync(Category category)
     {
-        throw new NotImplementedException();
+        var entity = await _unitOfWork.Categories.GetSingleAsync(category.Id);
+
+        if (entity is null)
+            throw new Exception("Category Not Found");
+
+        category.Adapt(entity);
+
+        await _unitOfWork.BeginTransaction();
+        await _unitOfWork.Categories.AddOrUpdateAsync(entity);
+        await _unitOfWork.Commit();
     }
 
     public async Task<IList<Category>> GetAllCategoriesAsync()
@@ -63,7 +72,9 @@ public class CategoryService : ICategoryService
 
     public async Task<Category?> GetCategoryByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var category = await _unitOfWork.Categories.GetSingleAsync(id);
+
+        return category!.Adapt<Category>();
     }
 
     public async Task<Category> GetCategoryByNameAsync(string name)

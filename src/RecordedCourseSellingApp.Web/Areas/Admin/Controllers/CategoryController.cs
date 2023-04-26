@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecordedCourseSellingApp.Web.Areas.Admin.Models;
+using RecordedCourseSellingApp.Web.Extensions;
 using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Areas.Admin.Controllers;
@@ -39,6 +40,44 @@ public class CategoryController : Controller
             model.ResolveDependency(_scope);
 
             await model.CreateCategoryAsync();
+
+            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            {
+                Message = "New category successfully created",
+                Type = ResponseTypes.Success
+            });
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var model = _scope.Resolve<CategoryEditModel>();
+        await model.LoadDataAsync(id);
+
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(CategoryEditModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            model.ResolveDependency(_scope);
+            await model.EditCategoryAsync();
+
+            TempData.Put<ResponseModel>("ResponseMessage", new ResponseModel
+            {
+                Message = "Category successfully edited",
+                Type = ResponseTypes.Success
+            });
+
+            return RedirectToAction(nameof(Index));
         }
 
         return View(model);

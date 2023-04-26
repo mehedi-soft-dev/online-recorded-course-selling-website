@@ -123,7 +123,7 @@ public class AccountController : Controller
                     if(model.ReturnUrl != null)
                         return LocalRedirect(model.ReturnUrl);
 
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                 }
 
                 _logger.LogInformation("User logged in.");
