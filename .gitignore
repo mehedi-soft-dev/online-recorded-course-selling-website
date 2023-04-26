@@ -33,8 +33,7 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 
-src/Applications/Hms.Api/Logs/*
-
 **/Logs/*
+**/UploadedFiles/*
 # Visual Studio 2015
 .vs/
