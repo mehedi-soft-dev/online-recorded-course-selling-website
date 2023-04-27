@@ -48,7 +48,7 @@ public class CourseListModel : BaseModel
                         record.Title,
                         record.Categoryname,
                         record.DifficultyLevel.ToString(),
-                        record.Price.ToString("0.00"),
+                        record.Price.ToString("0,000"),
                         record.Id.ToString(),
                     }).ToArray()
         };
