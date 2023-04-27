@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj" />
       <ProjectReference Include="..\RecordedCourseSellingApp.Services\RecordedCourseSellingApp.Services.csproj" />
+      <ProjectReference Include="..\RecordedCourseSellingApp.Shared\RecordedCourseSellingApp.Shared.csproj" />
     </ItemGroup>
 
 </Project>
