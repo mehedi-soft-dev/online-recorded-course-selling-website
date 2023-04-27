@@ -31,7 +31,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label asp-for="SearchItem.SearchText"></label>
-                                            <input type="text" asp-for="SearchItem.SearchText" class="form-control" placeholder="Search keyword..."/>
+                                            <input type="text" asp-for="SearchItem.SearchText" class="form-control" placeholder="Search keyword..." />
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -49,28 +49,35 @@
     </div>
     <div class="col-md-9">
         <div class="row">
-            @*<partial name="_CourseCardParitial" />*@
-
-            @foreach(var item in Model.AvailableCourses!)
+            @if (Model.AvailableCourses!.Count > 0)
             {
-                <div class="col-md-4">
-                    <ul class="list-group">
-                        <li class="list-group-item"><img src="UploadedFiles/Course/Thumbnail/@item.ThumbnailImage" style="height: 100%; width: 100%; display:block;" /></li>
-                        <li class="list-group-item"><h5>@item.Title</h5></li>
-                        <li class="list-group-item"><span style="font-weight:500">Category :</span> @item.CategoryName</li>
-                        <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @item.DifficultyLevel.ToString()</li>
-                        <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @item.Price.ToString("0,000")</li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="#" class="btn btn-sm btn-block btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Details</a>
+                foreach (var item in Model.AvailableCourses!)
+                {
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            <li class="list-group-item"><img src="UploadedFiles/Course/Thumbnail/@item.ThumbnailImage" style="height: 100%; width: 100%; display:block;" /></li>
+                            <li class="list-group-item"><h5>@item.Title</h5></li>
+                            <li class="list-group-item"><span style="font-weight:500">Category :</span> @item.CategoryName</li>
+                            <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @item.DifficultyLevel.ToString()</li>
+                            <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @item.Price.ToString("0,000")</li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-sm btn-block btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Details</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-sm btn-block btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <a href="#" class="btn btn-sm btn-block btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12 text-center">
+                    <h3>No Course found!</h3>
                 </div>
             }
         </div>

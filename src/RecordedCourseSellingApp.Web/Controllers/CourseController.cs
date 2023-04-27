@@ -35,7 +35,7 @@ public class CourseController : Controller
         {
             model!.ResolveDependency(_scope);
             await model.LoadDdlAsync();
-
+            await model.SearchDataAsync();
         }
         catch (Exception ex)
         {
