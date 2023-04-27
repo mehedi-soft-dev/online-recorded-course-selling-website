@@ -1,6 +1,7 @@
 using Autofac;
 using RecordedCourseSellingApp.Web.Areas.Admin.Models;
 using RecordedCourseSellingApp.Web.Areas.Identity.Models;
+using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web;
 
@@ -18,6 +19,8 @@ public class WebModule : Module
         builder.RegisterType<CourseCreateModel>().AsSelf();
         builder.RegisterType<CourseListModel>().AsSelf();
         builder.RegisterType<CourseEditModel>().AsSelf();
+
+        builder.RegisterType<CourseSearchModel>().AsSelf();
 
         base.Load(builder);
     }

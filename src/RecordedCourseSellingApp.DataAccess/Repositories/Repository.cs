@@ -34,12 +34,20 @@ public class Repository<T, TKey> : IRepository<T, TKey>
     public async Task<IEnumerable<T>> GetAllAsync() => 
         await Task.Run(() =>_session.Query<T>().ToList());
     
-    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => 
-        await Task.Run(() => _session.Query<T>().Where(predicate));
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>>? predicate = null!)
+    {
+        var query = _session.Query<T>();
+
+        if (predicate != null)
+            query = query.Where(predicate);
+
+        return await query.ToListAsync();
+    }
 
     public virtual async Task<(IList<T> data, int total, int totalDisplay)> 
         GetByPagingAsync(Expression<Func<T, bool>> filter = null!, string orderBy = null!, 
-            int pageIndex = 1, int pageSize = 10, Expression<Func<T, object>>? objectSelector = null)
+            int pageIndex = 1, int pageSize = 10, Expression<Func<T, object>>? objectSelector = null!,
+			Expression<Func<T, bool>> selectorFilter = null!)
     {
         IQueryable<T> query = _session.Query<T>();
         var total = query.Count();
@@ -50,8 +58,14 @@ public class Repository<T, TKey> : IRepository<T, TKey>
             query = query.Where(filter);
             totalDisplay = query.Count();
         }
+        
         if (objectSelector != null)
+        {
             query = query.Fetch(objectSelector);
+
+            if (selectorFilter != null)
+                query = query.Where(selectorFilter);
+		}
 
         if (orderBy != null)
         {
