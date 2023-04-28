@@ -65,4 +65,29 @@ public class EnrollmentController : Controller
 
         return RedirectToAction("Cart", "Enrollment", new { Area="" });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Checkout()
+    {
+        var model = _scope.Resolve<CheckoutCreateModel>();
+        await model.LoadDataAsync(User.Identity!.Name!);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Checkout(CheckoutCreateModel model)
+    {
+        try
+        {
+            model.ResolveDependency(_scope);
+            await model.CreateCheckoutAsync(User.Identity!.Name!);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
+
+        return View(model);
+    }
 }

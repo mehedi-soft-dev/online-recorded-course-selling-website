@@ -9,4 +9,8 @@ public interface IEnrollmentService
     Task RemoveCartItemAsync(Guid id);
 
     Task<IEnumerable<CartItem>> GetCartItemsAsync(string username);
+
+    Task CreateCheckoutAsync(string username);
+
+    Task<(int CartItems, int TotalAmount)> GetCheckoutDataAsync(string username);
 }

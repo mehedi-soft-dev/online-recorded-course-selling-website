@@ -109,11 +109,5 @@ public class ApplicationUserMap : ClassMapping<ApplicationUser>
             prop.Length(25);
             prop.NotNullable(false);
         });
-        Bag(x => x.CartItems, m =>
-        {
-            m.Key(k => k.Column("CategoryId"));
-            m.Cascade(Cascade.Persist);
-            m.Inverse(true);
-        }, r => r.OneToMany());
     }
 }

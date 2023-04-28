@@ -29,6 +29,8 @@ public class WebModule : Module
         builder.RegisterType<CartDetailsModel>().AsSelf();
         builder.RegisterType<CartItemListModel>().AsSelf();
 
+        builder.RegisterType<CheckoutCreateModel>().AsSelf();
+
         base.Load(builder);
     }
 }

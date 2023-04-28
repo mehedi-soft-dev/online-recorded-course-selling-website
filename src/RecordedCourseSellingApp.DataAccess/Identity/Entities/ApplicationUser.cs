@@ -11,8 +11,6 @@ public class ApplicationUser : IdentityUser<Guid>
     
     public virtual long? LockoutEndUnixTimeSeconds { get; set; }
 
-    public virtual IList<CartItem> CartItems { get; set; } 
-
     public override DateTimeOffset? LockoutEnd {
         get {
             if (!LockoutEndUnixTimeSeconds.HasValue) {

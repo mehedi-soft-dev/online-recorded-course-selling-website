@@ -4,6 +4,7 @@ using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
 using CartItemEO = RecordedCourseSellingApp.DataAccess.Entities.CartItem;
+using EnrollmentEO = RecordedCourseSellingApp.DataAccess.Entities.Enrollment;
 
 namespace RecordedCourseSellingApp.Services.Services;
 
@@ -41,6 +42,33 @@ public class EnrollmentService : IEnrollmentService
         await _unitOfWork.Commit();
     }
 
+    public async Task CreateCheckoutAsync(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user == null)
+            throw new Exception("User not found");
+
+        var cartItems = await _unitOfWork.CartItems.FindAsync(x => x.User == user);
+        if (cartItems.Count() == 0)
+            throw new Exception("No Cart item found with this user");
+        
+        await _unitOfWork.BeginTransaction();
+
+        foreach(var cartItem in cartItems)
+        {
+            var enrollment = new EnrollmentEO()
+            {
+                User = user,
+                Course = cartItem.Course,
+                Price = cartItem.Price,
+            };
+
+            await _unitOfWork.Enrollments.AddAsync(enrollment);
+        }
+        
+        await _unitOfWork.Commit();
+    }
+
     public async Task<IEnumerable<CartItem>> GetCartItemsAsync(string username)
     {
         var user = await _userManager.FindByNameAsync(username);
@@ -57,6 +85,19 @@ public class EnrollmentService : IEnrollmentService
         }
 
         return cartItems;
+    }
+
+    public async Task<(int CartItems, int TotalAmount)> GetCheckoutDataAsync(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user is null) throw new Exception("User not found");
+
+        var cartItems = await _unitOfWork.CartItems.FindAsync(x => x.User == user);
+
+        if (cartItems is null)
+            return (0, 0);
+
+        return (cartItems.Count(), cartItems.Sum(x => x.Price));
     }
 
     public async Task RemoveCartItemAsync(Guid id)
