@@ -2,7 +2,7 @@
 
 namespace RecordedCourseSellingApp.DataAccess.Entities
 {
-    public class CartItem
+    public class CartItem : IEntity<Guid>
     {
         public virtual Guid Id { get; set; }
 
