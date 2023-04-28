@@ -1,0 +1,35 @@
+﻿@using RecordedCourseSellingApp.DataAccess.Identity.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <a href="#" >
+            <i class="fa fa-user"></i>
+            <span>@User.Identity?.Name!</span>
+        </a>
+    </div>
+    <div>
+        <a asp-area="Identity" asp-controller="Account" asp-action="SignOut">
+            <i class="fa fa-sign-out"></i>
+            <span>Sign Out</span>
+        </a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-area="Identity" asp-controller="Account" asp-action="SignUp">
+            <i class="fa fa-user-plus"></i>
+            <span>Sign Up</span>
+        </a>
+    </div>
+    <div>
+        <a asp-area="Identity" asp-controller="Account" asp-action="Login">
+            <i class="fa fa-sign-in"></i>
+            <span>Sign In</span>
+        </a>
+    </div>
+}

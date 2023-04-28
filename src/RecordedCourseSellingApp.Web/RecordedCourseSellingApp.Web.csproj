@@ -7,4 +7,19 @@
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="NHibernate" Version="5.4.2" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RecordedCourseSellingApp.DataAccess\RecordedCourseSellingApp.DataAccess.csproj" />
+      <ProjectReference Include="..\RecordedCourseSellingApp.Services\RecordedCourseSellingApp.Services.csproj" />
+      <ProjectReference Include="..\RecordedCourseSellingApp.Shared\RecordedCourseSellingApp.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

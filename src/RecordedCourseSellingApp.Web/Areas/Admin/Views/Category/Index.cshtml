@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Categories";
+    ViewData["Header"] = "Category";
+    ViewData["Breadcrumb"] = "Course Categories";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Available Categories</h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-success pull-right">New Category</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="categories" class="table table-bordered table-hover">
+                    <thead class="">
+                        <tr>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<partial name="_ModalPartial" />
+
+@section Styles{
+    <link rel="stylesheet" href="~/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+}
+
+@section Scripts{
+    <script src="~/admin/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+    <script>
+        $(function () {
+            $('#categories').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Admin/Category/GetCategoryData",
+                    type: "GET",
+                },
+                "columnDefs": [
+                    {
+                        "targets": 2,
+                        "className": "dt-center",
+                        render: function (data, type, row) {
+                            return data == "Yes" ? `<span class="badge badge-pill badge-success"> ${data} </span>` : `<span class="badge badge-pill badge-danger"> ${data} </span>`;
+                        }
+                    },
+                    {
+                        "orderable": false,
+                        "targets": 3,
+                        "className": "dt-center",
+                        "render": function (data, type, row) {
+                            return `<button type="submit" class="btn btn-info btn-sm" onclick="window.location.href='/Admin/Category/Edit/${data}'" value='${data}'>
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                Edit
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm show-bs-modal" data-id='${data}' value='${data}'>
+                                <i class="fas fa-trash">
+                                </i>
+                                Delete
+                            </button>`;
+                        }
+                    }
+                ]
+            });
+        });
+
+        $('#categories').on('click', '.show-bs-modal', function (event) {
+            var id = $(this).data("id");
+            var modal = $("#modal-default");
+            modal.find('.modal-body p').text('Are you sure you want to delete this record?');
+            $("#deleteId").val(id);
+            $("#deleteForm").attr("action", "/Admin/Category/Delete");
+            modal.modal('show');
+        });
+
+        $("#deleteButton").click(function () {
+            $("#deleteForm").submit();
+        });
+    </script>
+}

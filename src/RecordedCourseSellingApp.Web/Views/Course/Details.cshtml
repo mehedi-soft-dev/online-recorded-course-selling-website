@@ -1,0 +1,55 @@
+﻿@model CourseDetailsModel
+
+@using Microsoft.AspNetCore.Identity
+@using RecordedCourseSellingApp.DataAccess.Identity.Entities;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <img src="/UploadedFiles/Course/Thumbnail/@Model.ThumbnailImage" style="height: 100%; width: 100%; display:block" />
+                    </li>
+                    <li class="list-group-item"><span style="font-weight:500">Category :</span> @Model.CategoryName</li>
+                    <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @Model.DifficultyLevel.ToString()</li>
+                    <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @Model.Price.ToString("0,000")</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <p style="font-weight:700">
+                    @Model.Title
+                </p>
+                <br />
+                <span style="font-weight:700; display:block;">Description:</span>
+                <p style="text-align:justify; ">
+                    @Model.Description
+                </p>
+                <br />
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    if (Model.AlreadyEnrolled)
+                    {
+                        <a asp-area="" asp-controller="Dashboard" asp-action="Watch" asp-route-courseid="@Model.CourseId" class="btn btn-sm btn-block btn-black"><i class="fa fa-eye" aria-hidden="true"></i> View Course Video</a>
+                    }
+                    else if (Model.AlreadyAddedToCart)
+                    {
+                        <a asp-area="" asp-controller="Enrollment" asp-action="Checkout" class="btn btn-sm btn-block btn-red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Checkout</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Enrollment" asp-action="AddToCart" asp-route-courseid="@Model.CourseId" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                    }
+                }
+                else
+                {
+                    <a href="javascript:void(0)" class="btn btn-sm btn-block btn-black"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Need login for add to your cart</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

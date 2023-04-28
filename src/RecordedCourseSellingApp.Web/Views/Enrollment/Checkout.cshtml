@@ -1,0 +1,57 @@
+﻿@model CheckoutCreateModel
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                Checkout
+            </div>
+            <div class="panel-body">
+                <div class="text-right">
+                    <small>@Model.CartItemCount Item(s) selected</small>
+                    <h5 style="padding:10px 0;">SUBTOTAL:  BDT @Model.CartItemPriceTotal.ToString("0,000") /=</h5>
+                </div>
+
+                <form asp-area="" asp-controller="Enrollment" asp-action="Checkout" asp-antiforgery="true" method="post">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="CardNumber"></label>
+                                    <input type="text" asp-for="CardNumber" class="form-control" placeholder="Enter your card number" />
+                                    <span asp-validation-for="CardNumber" class="text-danger input-group"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CardExpireDate"></label>
+                                    <input type="text" asp-for="CardExpireDate" class="form-control" placeholder="Enter your card expire date" />
+                                    <span asp-validation-for="CardExpireDate" class="text-danger input-group"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CardPin"></label>
+                                    <input type="text" asp-for="CardPin" class="form-control" placeholder="Enter your card expire date" />
+                                    <span asp-validation-for="CardPin" class="text-danger input-group"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TotalAmount"></label>
+                                    <input type="text" asp-for="CartItemPriceTotal" readonly class="form-control" placeholder="Total Amount" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <a asp-area="" asp-controller="Enrollment" asp-action="Cart" class="btn btn-block btn-black"><i class="fa fa-eye"></i>  View cart</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-block btn-red"><i class="fa fa-arrow-circle-right"></i>  Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

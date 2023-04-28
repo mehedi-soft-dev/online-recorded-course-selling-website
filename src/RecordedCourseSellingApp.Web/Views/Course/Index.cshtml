@@ -1,0 +1,85 @@
+﻿@model CourseSearchModel
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="panel panel-black">
+                    <div class="panel-heading">
+                        Search Courses
+                    </div>
+                    <div class="panel-body">
+                        <form asp-area="" asp-controller="Course" asp-action="Index" asp-antiforgery="true" method="post" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="SearchItem.CategoryId"></label>
+                                            <select class="form-select-sm form-control" asp-for="SearchItem.CategoryId" asp-items="@Model.SearchItem.CategoryDdl">
+                                                <option selected>--- SELECT ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="SearchItem.DifficultyLevel"></label>
+                                            <select class="form-select-sm form-control" asp-for="SearchItem.DifficultyLevel" asp-items="@Model.SearchItem.DificultyLevelDdl">
+                                                <option selected>--- SELECT ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="SearchItem.SearchText"></label>
+                                            <input type="text" asp-for="SearchItem.SearchText" class="form-control" placeholder="Search keyword..." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-sm btn-block btn-red">
+                                            <i class="fa fa-search" aria-hidden="true"></i> Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            @if (Model.AvailableCourses!.Count > 0)
+            {
+                foreach (var item in Model.AvailableCourses!)
+                {
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            <li class="list-group-item"><img src="UploadedFiles/Course/Thumbnail/@item.ThumbnailImage" style="height: 100%; width: 100%; display:block;" /></li>
+                            <li class="list-group-item"><h5>@item.Title</h5></li>
+                            <li class="list-group-item"><span style="font-weight:500">Category :</span> @item.CategoryName</li>
+                            <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @item.DifficultyLevel.ToString()</li>
+                            <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @item.Price.ToString("0,000")</li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId" class="btn btn-sm btn-block btn-black"><i class="fa fa-list" aria-hidden="true"></i> Details</a>
+                                    </div>
+                                    @*<div class="col-md-6">
+                                        <a href="javascript:void(0)" onclick="AddToCart('@item.CourseId')" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                                    </div>*@
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12 text-center">
+                    <h3>No Course found!</h3>
+                </div>
+            }
+        </div>
+    </div>
+</div>
