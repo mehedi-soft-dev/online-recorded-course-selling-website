@@ -9,12 +9,12 @@ public class UnitOfWork : IUnitOfWork
     private readonly ITransaction _transaction;
     private readonly ICategoryRepository _categoryRepository;
     private readonly ICourseRepository _courseRepository;
-    private readonly ICartRepository _cartRepository;
+    private readonly ICartItemRepository _cartRepository;
 
     public UnitOfWork(ISession session,
         ICategoryRepository categoryRepository,
         ICourseRepository courseRepository,
-        ICartRepository cartRepository)
+        ICartItemRepository cartRepository)
     {
         _session = session;
         _transaction = _session.BeginTransaction();
@@ -46,5 +46,5 @@ public class UnitOfWork : IUnitOfWork
 
     public ICategoryRepository Categories => _categoryRepository;
     public ICourseRepository Courses => _courseRepository;
-    public ICartRepository Carts => _cartRepository;
+    public ICartItemRepository CartItems => _cartRepository;
 }
