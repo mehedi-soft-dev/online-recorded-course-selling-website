@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Mapster;
 using RecordedCourseSellingApp.Services.Services;
 using RecordedCourseSellingApp.Shared.Enums;
 
@@ -8,7 +9,7 @@ public class CourseDetailsModel : BaseModel
 {
     public Guid CourseId { get; set; }
 
-    public string Title { get;} = string.Empty;
+    public string Title { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
@@ -42,6 +43,11 @@ public class CourseDetailsModel : BaseModel
 
     public async Task LoadDataAsync()
     {
+        if (CourseId == Guid.Empty)
+            throw new Exception("Course Id can't be null");
 
+        var course = await _courseService.GetCourseDetailsByIdAsync(CourseId);
+
+        course.Adapt(this);
     }
 }

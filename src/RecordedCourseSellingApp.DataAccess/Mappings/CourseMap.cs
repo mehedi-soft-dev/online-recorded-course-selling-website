@@ -22,7 +22,7 @@ public class CourseMap : ClassMapping<Course>
         });
         Property(b => b.Title, x =>
         {
-            x.Length(50);
+            x.Length(256);
             x.Type(NHibernateUtil.StringClob);
             x.NotNullable(true);
         });
@@ -45,7 +45,7 @@ public class CourseMap : ClassMapping<Course>
         });
         Property(b => b.Description, x =>
         {
-            x.Length(256);
+            x.Length(5000);
             x.Type(NHibernateUtil.StringClob);
         });
         Property(b => b.Price, x =>

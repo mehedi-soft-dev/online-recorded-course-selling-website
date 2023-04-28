@@ -51,6 +51,7 @@ public class CourseController : Controller
         try
         {
             var model = _scope.Resolve<CourseDetailsModel>();
+            model.CourseId = id;
             await model.LoadDataAsync();
 
             return View(model);

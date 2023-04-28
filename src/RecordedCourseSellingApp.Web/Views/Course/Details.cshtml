@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <img src="@Model.ThumbnailImage" style="height: 100%; width: 100%; display:block" />
+                        <img src="/UploadedFiles/Course/Thumbnail/@Model.ThumbnailImage" style="height: 100%; width: 100%; display:block" />
                     </li>
                     <li class="list-group-item"><span style="font-weight:500">Category :</span> @Model.CategoryName</li>
                     <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @Model.DifficultyLevel.ToString()</li>
@@ -15,10 +15,16 @@
                 </ul>
             </div>
             <div class="col-md-6">
-                <h4>@Model.Title</h4>
+                <p style="font-weight:700">
+                    @Model.Title
+                </p>
                 <br />
-                <h4>Description</h4>
-                <p>@Model.Description</p>
+                <span style="font-weight:700; display:block;">Description:</span>
+                <p style="text-align:justify; ">
+                    @Model.Description
+                </p>
+                <br />
+                <a href="#" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
             </div>
         </div>
     </div>
