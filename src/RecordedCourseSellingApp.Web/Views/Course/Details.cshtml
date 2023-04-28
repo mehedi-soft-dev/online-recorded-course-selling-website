@@ -24,9 +24,13 @@
                     @Model.Description
                 </p>
                 <br />
-                <a href="#" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                <a href="javascript:void(0)" onclick="AddToCart('@Model.CourseId')" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
             </div>
         </div>
     </div>
     <div class="col-md-2"></div>
 </div>
+
+@section Scripts{
+    <partial name="_AddToCartScriptPartial" />
+}

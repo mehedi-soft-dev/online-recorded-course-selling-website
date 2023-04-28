@@ -28,5 +28,10 @@ public static class MapsterConfiguration
             .NewConfig()
             .Map(dest => dest.CourseId, src => src.Id)
             .Map(dest => dest.CategoryName, src => src.Category.Name);
+
+        TypeAdapterConfig<Cart, CourseDetailsDto>
+            .NewConfig()
+            .Map(dest => dest.CourseId, src => src.Id)
+            .Map(dest => dest.CategoryName, src => src.Category.Name);
     }
 }

@@ -24,11 +24,8 @@ public class EnrollmentService : IEnrollmentService
         var user = await _userManager.FindByNameAsync(item.Username);
         var course = await _unitOfWork.Courses.GetSingleAsync(item.CourseId);
 
-        if (user is null)
-            throw new Exception("User not found");
-
-        if (course is null)
-            throw new Exception("Course not found");
+        if (user is null) throw new Exception("User not found");
+        if (course is null) throw new Exception("Course not found");
 
         var cartItem = item.Adapt<CartItemEO>();
         cartItem.User = user;
@@ -37,12 +34,29 @@ public class EnrollmentService : IEnrollmentService
 
         var count = await _unitOfWork.CartItems.GetCountAsync(x => x.User == user && x.Course == course);
 
-        if (count > 0)
-            throw new Exception("Cart item already added");
+        if (count > 0) throw new Exception("Cart item already added");
 
         await _unitOfWork.BeginTransaction();
         await _unitOfWork.CartItems.AddAsync(cartItem);
         await _unitOfWork.Commit();
+    }
+
+    public async Task<IEnumerable<CartItem>> GetCartItemsAsync(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+
+        if (user is null) throw new Exception("User not found");
+
+        var entities = await _unitOfWork.CartItems.FindAsync(x => x.User == user);
+
+        IList<CartItem> cartItems = new List<CartItem>();
+
+        foreach(var entity in entities)
+        {
+            cartItems.Add(entity.Adapt<CartItem>());
+        }
+
+        return cartItems;
     }
 
     public async Task RemoveCartItemAsync(CartItem item)

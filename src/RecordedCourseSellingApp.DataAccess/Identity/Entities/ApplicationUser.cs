@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.DataAccess.Identity.Entities;
 
@@ -9,6 +10,8 @@ public class ApplicationUser : IdentityUser<Guid>
     public virtual string LastName { get; set; }
     
     public virtual long? LockoutEndUnixTimeSeconds { get; set; }
+
+    public virtual IList<CartItem> CartItems { get; set; } 
 
     public override DateTimeOffset? LockoutEnd {
         get {

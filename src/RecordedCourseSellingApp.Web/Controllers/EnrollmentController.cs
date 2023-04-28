@@ -5,7 +5,7 @@ using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Controllers;
 
-[Authorize(Roles ="User")]
+[Authorize(Roles = "User")]
 public class EnrollmentController : Controller
 {
     private readonly ILogger _logger;
@@ -27,11 +27,16 @@ public class EnrollmentController : Controller
 
             return Json(true);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
         }
 
+        return Json(false);
+    }
+
+    public async Task<JsonResult> GetUserCartItems(Guid CourseId)
+    {
         return Json(false);
     }
 }
