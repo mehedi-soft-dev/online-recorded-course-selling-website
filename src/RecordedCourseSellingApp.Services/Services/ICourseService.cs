@@ -1,6 +1,8 @@
 ﻿using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Services.DTOs;
 using RecordedCourseSellingApp.Shared.Enums;
+using System.Linq.Expressions;
+using CourseEO = RecordedCourseSellingApp.DataAccess.Entities.Course;
 
 namespace RecordedCourseSellingApp.Services.Services;
 
@@ -12,6 +14,8 @@ public interface ICourseService
         int pageSize, string searchText, string orderby);
 
     Task DeleteCourseAsync(Guid id);
+
+    Task<int> GetCoursesCountAsync(Expression<Func<CourseEO, bool>>? predicate = null!);
 
     Task<Course?> GetCourseByIdAsync(Guid id);
 

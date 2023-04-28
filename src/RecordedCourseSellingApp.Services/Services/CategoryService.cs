@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Shared.Exceptions;
+using System.Linq.Expressions;
 using CategoryEO = RecordedCourseSellingApp.DataAccess.Entities.Category;
 
 namespace RecordedCourseSellingApp.Services.Services;
@@ -96,5 +97,10 @@ public class CategoryService : ICategoryService
         }).Distinct().ToList();
 
         return new SelectList(datas, "Value", "Text");
+    }
+
+    public async Task<int> GetCategoryCountAsync(Expression<Func<CategoryEO, bool>>? predicate = null)
+    {
+        return await _unitOfWork.Categories.GetCountAsync(predicate);
     }
 }

@@ -55,6 +55,34 @@ Table OF Contents
 	Typography
 \*----------------------------*/
 
+.btn-red {
+    background-color: #D10024;
+    border-color: #cc0022;
+    color: #fff;
+}
+
+.btn-red:hover {
+    background-color: #e60026;
+    color:#e6e6e6;
+}
+
+.btn-black {
+    background-color: #333;
+    border-color: #262626;
+    color:#fff;
+}
+.btn-black:hover {
+    background-color: #404040;
+    color:#e6e6e6;
+}
+.panel-black {
+    border-color: #262626;
+}
+.panel-black > .panel-heading {
+    background-color: #333;
+    color: #fff;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;

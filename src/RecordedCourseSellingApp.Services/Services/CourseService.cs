@@ -4,6 +4,7 @@ using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Services.DTOs;
 using RecordedCourseSellingApp.Shared.Enums;
 using RecordedCourseSellingApp.Shared.Exceptions;
+using System.Linq.Expressions;
 using CourseEO = RecordedCourseSellingApp.DataAccess.Entities.Course;
 
 namespace RecordedCourseSellingApp.Services.Services;
@@ -115,4 +116,10 @@ internal class CourseService : ICourseService
 
 		return result;
 	}
+
+    public async Task<int> GetCoursesCountAsync(
+		Expression<Func<CourseEO, bool>>? predicate = null)
+    {
+		return await _unitOfWork.Courses.GetCountAsync(predicate!);
+    }
 }

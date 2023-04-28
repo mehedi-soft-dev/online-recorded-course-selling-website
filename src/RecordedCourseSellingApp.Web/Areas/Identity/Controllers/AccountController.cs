@@ -77,7 +77,7 @@ public class AccountController : Controller
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     if(model.ReturnUrl == null)
-                        return RedirectToAction("Index", "Home", new {Area = ""});
+                        return RedirectToAction("Index", "Course", new {Area = ""});
 
                     return RedirectToAction(model.ReturnUrl);
                 }
@@ -128,7 +128,7 @@ public class AccountController : Controller
 
                 _logger.LogInformation("User logged in.");
 
-                return LocalRedirect(model.ReturnUrl);
+                return RedirectToAction("","", new {Area = ""});
             }
             if (result.RequiresTwoFactor)
             {
@@ -159,7 +159,7 @@ public class AccountController : Controller
         if (returnUrl != null)
             return LocalRedirect(returnUrl);
 
-        return RedirectToAction("Index", "Home", new { Area = "" });
+        return RedirectToAction("Index", "Course", new { Area = "" });
     }
 
     [HttpGet]
