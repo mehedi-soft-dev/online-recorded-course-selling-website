@@ -5,3 +5,12 @@
 <script src="~/user/js/nouislider.min.js"></script>
 <script src="~/user/js/jquery.zoom.min.js"></script>
 <script src="~/user/js/main.js"></script>
+
+<script>
+    $(document).ajaxError(function (e, xhr, settings) {
+        debugger;
+        if (xhr.status == 401) {
+            location = '@Url.Action( "SignIn", "Account", new { Area = "Identity"} )';
+        }
+    });
+</script>

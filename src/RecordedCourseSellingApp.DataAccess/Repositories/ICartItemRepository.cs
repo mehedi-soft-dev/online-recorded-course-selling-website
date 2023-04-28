@@ -2,7 +2,7 @@
 
 namespace RecordedCourseSellingApp.DataAccess.Repositories;
 
-public interface ICartRepository : IRepository<CartItem, Guid>
+public interface ICartItemRepository : IRepository<CartItem, Guid>
 {
 
 }

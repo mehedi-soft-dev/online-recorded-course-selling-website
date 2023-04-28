@@ -3,9 +3,9 @@ using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.DataAccess.Repositories;
 
-public class CartRepository : Repository<CartItem, Guid>, ICartRepository
+public class CartItemRepository : Repository<CartItem, Guid>, ICartItemRepository
 {
-    public CartRepository(ISession session) : base(session)
+    public CartItemRepository(ISession session) : base(session)
     {
 
     }

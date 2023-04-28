@@ -25,6 +25,7 @@ public static class ConfigureServices
         //Register Repositories
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<ICartItemRepository, CartItemRepository>();
 
         return services;
     }

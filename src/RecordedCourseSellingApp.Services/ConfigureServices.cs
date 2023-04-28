@@ -17,6 +17,7 @@ public static class ConfigureServices
         services.AddScoped<ISeedingService, SeedingService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IEnrollmentService, EnrollmentService>();
         
         return services;
     }

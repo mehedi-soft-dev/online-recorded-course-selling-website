@@ -1,0 +1,12 @@
+﻿<script>
+    function AddToCart(id) {
+        $.post('/Enrollment/AddToCart', { CourseId: id },
+            function (returnedData) {
+                debugger;
+                console.log(returnedData);
+            }).fail(function () {
+                debugger;
+                console.log("error");
+            });
+    };
+</script>

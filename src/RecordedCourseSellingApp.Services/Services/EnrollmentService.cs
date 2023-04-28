@@ -9,12 +9,14 @@ namespace RecordedCourseSellingApp.Services.Services;
 
 public class EnrollmentService : IEnrollmentService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EnrollmentService(IUnitOfWork unitOfWork)
+    public EnrollmentService(UserManager<ApplicationUser> userManger, 
+        IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
+        _userManager = userManger;
     }
 
     public async Task AddCartItemAsync(CartItem item)
@@ -31,6 +33,12 @@ public class EnrollmentService : IEnrollmentService
         var cartItem = item.Adapt<CartItemEO>();
         cartItem.User = user;
         cartItem.Course = course;
+        cartItem.Price = course.Price;
+
+        var count = await _unitOfWork.CartItems.GetCountAsync(x => x.User == user && x.Course == course);
+
+        if (count > 0)
+            throw new Exception("Cart item already added");
 
         await _unitOfWork.BeginTransaction();
         await _unitOfWork.CartItems.AddAsync(cartItem);
