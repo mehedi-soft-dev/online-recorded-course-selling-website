@@ -1,0 +1,26 @@
+﻿@model CourseDetailsModel
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <img src="@Model.ThumbnailImage" style="height: 100%; width: 100%; display:block" />
+                    </li>
+                    <li class="list-group-item"><span style="font-weight:500">Category :</span> @Model.CategoryName</li>
+                    <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @Model.DifficultyLevel.ToString()</li>
+                    <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @Model.Price.ToString("0,000")</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>@Model.Title</h4>
+                <br />
+                <h4>Description</h4>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

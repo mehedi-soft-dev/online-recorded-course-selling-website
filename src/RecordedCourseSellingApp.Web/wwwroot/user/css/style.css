@@ -65,7 +65,12 @@ Table OF Contents
     background-color: #e60026;
     color:#e6e6e6;
 }
-
+.btn-red:focus {
+    color: #e6e6e6;
+}
+.btn-red:active {
+    color: #e6e6e6;
+}
 .btn-black {
     background-color: #333;
     border-color: #262626;
@@ -73,6 +78,12 @@ Table OF Contents
 }
 .btn-black:hover {
     background-color: #404040;
+    color:#e6e6e6;
+}
+.btn-black:focus {
+    color:#e6e6e6;
+}
+.btn-black:active {
     color:#e6e6e6;
 }
 .panel-black {

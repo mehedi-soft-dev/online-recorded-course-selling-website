@@ -23,6 +23,7 @@ public class WebModule : Module
         builder.RegisterType<CourseEditModel>().AsSelf();
 
         builder.RegisterType<CourseSearchModel>().AsSelf();
+        builder.RegisterType<CourseDetailsModel>().AsSelf();
 
         base.Load(builder);
     }
