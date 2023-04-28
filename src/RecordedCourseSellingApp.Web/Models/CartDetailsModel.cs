@@ -35,4 +35,23 @@ public class CartDetailsModel : BaseModel
             CartItems.Add(item.Adapt<CartItemListModel>());
         }
     }
+
+    public async Task RemoveCartItemAsync(Guid cartItemId)
+    {
+        await _enrollmentService.RemoveCartItemAsync(cartItemId);
+    }
+
+    internal async Task<IList<CartItemListModel>> GetCartItemsAsync(string username)
+    {
+        var result = await _enrollmentService.GetCartItemsAsync(username);
+
+        IList<CartItemListModel> cartItems = new List<CartItemListModel>();
+
+        foreach (var item in result)
+        {
+            cartItems.Add(item.Adapt<CartItemListModel>());
+        }
+
+        return cartItems;
+    }
 }

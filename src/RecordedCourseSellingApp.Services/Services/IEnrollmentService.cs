@@ -6,7 +6,7 @@ public interface IEnrollmentService
 {
     Task AddCartItemAsync(CartItem item);
 
-    Task RemoveCartItemAsync(CartItem item);
+    Task RemoveCartItemAsync(Guid id);
 
     Task<IEnumerable<CartItem>> GetCartItemsAsync(string username);
 }

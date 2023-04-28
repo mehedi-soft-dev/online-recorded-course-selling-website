@@ -33,7 +33,8 @@ public class EnrollmentController : Controller
         {
             var model = _scope.Resolve<CartItemAddModel>();
             model.CourseId = CourseId;
-            var cartItems = await model.AddToCartAsync(User.Identity!.Name!);
+            await model.AddToCartAsync(User.Identity!.Name!);
+            var cartItems = await model.GetCartItemsAsync(User.Identity!.Name!);
 
             HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
         }
@@ -48,6 +49,20 @@ public class EnrollmentController : Controller
     [HttpGet]
     public async Task<IActionResult> RemoveFromCart(Guid id)
     {
-        return View();
+        try
+        {
+            var model = _scope.Resolve<CartDetailsModel>();
+            await model.RemoveCartItemAsync(id);
+
+            var cartItems = await model.GetCartItemsAsync(User.Identity!.Name!);
+
+            HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
+
+        return RedirectToAction("Cart", "Enrollment", new { Area="" });
     }
 }

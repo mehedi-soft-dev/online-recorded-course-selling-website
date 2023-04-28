@@ -59,8 +59,16 @@ public class EnrollmentService : IEnrollmentService
         return cartItems;
     }
 
-    public async Task RemoveCartItemAsync(CartItem item)
+    public async Task RemoveCartItemAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var cartItem = await _unitOfWork.CartItems.GetSingleAsync(x => x.Id == id);
+
+        if (cartItem == null)
+            throw new Exception("Cart item not found");
+
+
+        await _unitOfWork.BeginTransaction();
+        await _unitOfWork.CartItems.DeleteAsync(cartItem!);
+        await _unitOfWork.Commit();
     }
 }
