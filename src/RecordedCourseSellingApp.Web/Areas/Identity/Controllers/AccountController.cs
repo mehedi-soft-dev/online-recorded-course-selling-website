@@ -1,4 +1,5 @@
 using Autofac;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 using RecordedCourseSellingApp.Services.Services;
 using RecordedCourseSellingApp.Web.Areas.Identity.Models;
+using RecordedCourseSellingApp.Web.Models;
 using System.Security.Claims;
 using System.Text;
 
@@ -83,15 +85,7 @@ public class AccountController : Controller
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    var cartItems = _enrollmentService.GetCartItemsAsync(user.NormalizedUserName);
-
-                    if (cartItems != null)
-                    {
-                        var claims = (await _userManager.GetClaimsAsync(user)).ToList();
-                        claims.Add(new Claim("CartItems", JsonConvert.SerializeObject(cartItems)));
-
-                        await _userManager.ReplaceClaimAsync(user, claims[0], claims[1]);
-                    }
+                    await AddCartItemsToSession(user.NormalizedUserName);
 
                     if (model.ReturnUrl == null)
                         return RedirectToAction("Index", "Course", new {Area = ""});
@@ -143,12 +137,9 @@ public class AccountController : Controller
                     return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                 }
 
-				var cartItems = await _enrollmentService.GetCartItemsAsync(user.NormalizedUserName);
+                await AddCartItemsToSession(user.NormalizedUserName);
 
-				if (cartItems != null)
-                    HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
-
-				_logger.LogInformation("User logged in.");
+                _logger.LogInformation("User logged in.");
 
                 return RedirectToAction("","", new {Area = ""});
             }
@@ -189,5 +180,18 @@ public class AccountController : Controller
     public IActionResult AccessDenied()
     {
         return View();
+    }
+
+    private async Task AddCartItemsToSession(string username)
+    {
+        IList<CartItemListModel> cartItems = new List<CartItemListModel>();
+        var result = await _enrollmentService.GetCartItemsAsync(username);
+
+        foreach(var item in result)
+        {
+            cartItems.Add(item.Adapt<CartItemListModel>());
+        }
+
+        HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
     }
 }

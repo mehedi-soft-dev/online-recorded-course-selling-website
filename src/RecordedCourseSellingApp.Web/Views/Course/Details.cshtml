@@ -1,5 +1,10 @@
 ﻿@model CourseDetailsModel
 
+@using Microsoft.AspNetCore.Identity
+@using RecordedCourseSellingApp.DataAccess.Identity.Entities;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -24,7 +29,25 @@
                     @Model.Description
                 </p>
                 <br />
-                <a href="javascript:void(0)" onclick="AddToCart('@Model.CourseId')" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    if (Model.AlreadyEnrolled)
+                    {
+                        <a asp-area="" asp-controller="Enrollment" asp-action="AddToCart" asp-route-courseid="@Model.CourseId" class="btn btn-sm btn-block btn-red"><i class="fa fa-eye" aria-hidden="true"></i> View Course Video</a>
+                    }
+                    else if (Model.AlreadyAddedToCart)
+                    {
+                        <a asp-area="" asp-controller="Enrollment" asp-action="AddToCart" asp-route-courseid="@Model.CourseId" class="btn btn-sm btn-block btn-red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Checkout</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Enrollment" asp-action="AddToCart" asp-route-courseid="@Model.CourseId" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                    }
+                }
+                else
+                {
+                    <a href="javascript:void(0)" class="btn btn-sm btn-block btn-black"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Need login for add to your cart</a>
+                }
             </div>
         </div>
     </div>

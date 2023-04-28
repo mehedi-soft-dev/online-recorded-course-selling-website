@@ -3,6 +3,7 @@
         $.post('/Enrollment/AddToCart', { CourseId: id },
             function (returnedData) {
                 debugger;
+                //$('#eedu-cart-section').load(document.URL + ' #eedu-cart-section');
                 console.log(returnedData);
             }).fail(function () {
                 debugger;

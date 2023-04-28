@@ -35,6 +35,7 @@ public static class MapsterConfiguration
 
         TypeAdapterConfig<CartItemEO, CartItemBO>
             .NewConfig()
+            .Map(dest => dest.CartItemId, src => src.Id)
             .Map(dest => dest.CourseId, src => src.Course.Id)
             .Map(dest => dest.Title, src => src.Course.Title)
             .Map(dest => dest.ThumbnailImage, src => src.Course.ThumbnailImage)

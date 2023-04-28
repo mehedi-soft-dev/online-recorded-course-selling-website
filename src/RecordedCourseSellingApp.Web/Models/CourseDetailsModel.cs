@@ -23,7 +23,12 @@ public class CourseDetailsModel : BaseModel
 
     public string VideoLink { get; set; } = string.Empty;
 
+    public bool AlreadyAddedToCart { get; set; }
+
+    public bool AlreadyEnrolled { get; set; }
+
     private ICourseService _courseService;
+
     
     public CourseDetailsModel() : base()
     {
@@ -41,12 +46,12 @@ public class CourseDetailsModel : BaseModel
         _courseService = _scope.Resolve<ICourseService>();
     }
 
-    public async Task LoadDataAsync()
+    public async Task LoadDataAsync(string? username = null)
     {
         if (CourseId == Guid.Empty)
             throw new Exception("Course Id can't be null");
 
-        var course = await _courseService.GetCourseDetailsByIdAsync(CourseId);
+        var course = await _courseService.GetCourseDetailsByIdAsync(CourseId, username);
 
         course.Adapt(this);
     }

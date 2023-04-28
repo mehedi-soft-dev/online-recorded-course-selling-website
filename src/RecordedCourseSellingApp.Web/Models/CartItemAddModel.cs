@@ -31,13 +31,22 @@ public class CartItemAddModel : BaseModel
         _enrollmentService = _scope.Resolve<IEnrollmentService>();
     }
 
-    internal async Task<bool> AddToCartAsync(string username)
+    internal async Task<IList<CartItemListModel>> AddToCartAsync(string username)
     {
         Username = username;
         var cartItemBO = this.Adapt<CartItem>();
 
         await _enrollmentService.AddCartItemAsync(cartItemBO);
         
-        return true;
+        var result = await _enrollmentService.GetCartItemsAsync(username);
+        
+        IList<CartItemListModel> cartItems = new List<CartItemListModel>();
+
+        foreach (var item in result)
+        {
+            cartItems.Add(item.Adapt<CartItemListModel>());
+        }
+
+        return cartItems;
     }
 }

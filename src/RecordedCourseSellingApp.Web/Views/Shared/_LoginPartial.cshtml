@@ -7,17 +7,17 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    IList<CartItem> cartItems = new List<CartItem>();
+    IList<CartItemListModel> cartItems = new List<CartItemListModel>();
     var cartData = HttpContextAccessor.HttpContext!.Session.GetString("CartItems");
     if (cartData != null)
     {
-        cartItems = JsonConvert.DeserializeObject<List<CartItem>>(cartData)!;
+        cartItems = JsonConvert.DeserializeObject<List<CartItemListModel>>(cartData)!;
     }
 }
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="dropdown" style="cursor:pointer;">
+    <div class="dropdown" style="cursor:pointer;" id="eedu-cart-section">
         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
             <i class="fa fa-shopping-cart"></i>
             <span>Your Cart</span>

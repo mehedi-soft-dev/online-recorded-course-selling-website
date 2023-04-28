@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Controllers;
@@ -17,26 +18,21 @@ public class EnrollmentController : Controller
         _scope = scope;
     }
 
-    public async Task<JsonResult> AddToCart(Guid CourseId)
+    public async Task<IActionResult> AddToCart(Guid CourseId)
     {
         try
         {
             var model = _scope.Resolve<CartItemAddModel>();
             model.CourseId = CourseId;
-            await model.AddToCartAsync(User.Identity!.Name!);
+            var cartItems = await model.AddToCartAsync(User.Identity!.Name!);
 
-            return Json(true);
+            HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
         }
 
-        return Json(false);
-    }
-
-    public async Task<JsonResult> GetUserCartItems(Guid CourseId)
-    {
-        return Json(false);
+        return RedirectToAction("Details", "Course", new { Area = "", id = CourseId });
     }
 }

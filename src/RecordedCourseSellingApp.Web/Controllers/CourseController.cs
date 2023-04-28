@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Controllers;
@@ -10,11 +12,15 @@ public class CourseController : Controller
 {
     private readonly ILogger<CourseController> _logger;
     private readonly ILifetimeScope _scope;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public CourseController(ILogger<CourseController> logger, ILifetimeScope scope)
+    public CourseController(ILogger<CourseController> logger, ILifetimeScope scope,
+        UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _scope = scope;
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -52,7 +58,13 @@ public class CourseController : Controller
         {
             var model = _scope.Resolve<CourseDetailsModel>();
             model.CourseId = id;
-            await model.LoadDataAsync();
+
+            string? username = null;
+
+            if (!string.IsNullOrEmpty(User.Identity?.Name))
+                username = User.Identity?.Name;
+
+            await model.LoadDataAsync(username);
 
             return View(model);
         }
@@ -62,5 +74,11 @@ public class CourseController : Controller
         }
 
         return RedirectToAction("Index", "Course", new { Area = ""});
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Cart()
+    {
+        return View();
     }
 }

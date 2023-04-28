@@ -1,4 +1,6 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Identity;
+using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Services.DTOs;
@@ -12,10 +14,12 @@ namespace RecordedCourseSellingApp.Services.Services;
 internal class CourseService : ICourseService
 {
 	private readonly IUnitOfWork _unitOfWork;
+	private readonly UserManager<ApplicationUser> _userManager;
 
-	public CourseService(IUnitOfWork unitOfWork, ICategoryService categoryService)
+	public CourseService(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
 	{
 		_unitOfWork = unitOfWork;
+		_userManager = userManager;
 	}
 
 	public async Task CreateCourseAsync(Course course)
@@ -121,10 +125,22 @@ internal class CourseService : ICourseService
 		return await _unitOfWork.Courses.GetCountAsync(predicate!);
     }
 
-    public async Task<CourseDetailsDto> GetCourseDetailsByIdAsync(Guid id)
+    public async Task<CourseDetailsDto> GetCourseDetailsByIdAsync(Guid courseId, string? username = null)
     {
-        var course = await _unitOfWork.Courses.GetSingleAsync(id);
+        var course = await _unitOfWork.Courses.GetSingleAsync(courseId);
+		var courseBO = course!.Adapt<CourseDetailsDto>();
 
-        return course!.Adapt<CourseDetailsDto>();
+		if (!string.IsNullOrEmpty(username))
+		{
+			var user = await _userManager.FindByNameAsync(username);
+            
+			int cartItemCount = await _unitOfWork.CartItems.GetCountAsync(
+            x => x.Course == course && x.User == user);
+
+            if (cartItemCount > 0)
+                courseBO.AlreadyAddedToCart = true;
+        }
+
+		return courseBO;
     }
 }
