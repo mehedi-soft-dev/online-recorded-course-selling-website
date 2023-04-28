@@ -15,6 +15,8 @@ public interface IRepository<T, in TKey>
     Task AddOrUpdateAsync(T entity);
 
     Task MergeAsync(T entity);
+
+    Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null!);
     
     Task<T?> GetSingleAsync(TKey id);
 

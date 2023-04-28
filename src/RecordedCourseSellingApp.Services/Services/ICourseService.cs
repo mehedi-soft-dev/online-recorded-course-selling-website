@@ -1,6 +1,8 @@
 ﻿using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Services.DTOs;
 using RecordedCourseSellingApp.Shared.Enums;
+using System.Linq.Expressions;
+using CourseEO = RecordedCourseSellingApp.DataAccess.Entities.Course;
 
 namespace RecordedCourseSellingApp.Services.Services;
 
@@ -13,12 +15,16 @@ public interface ICourseService
 
     Task DeleteCourseAsync(Guid id);
 
+    Task<int> GetCoursesCountAsync(Expression<Func<CourseEO, bool>>? predicate = null!);
+
     Task<Course?> GetCourseByIdAsync(Guid id);
 
     Task EditCourseAsync(Course course);
 
     Task<IList<Course>> GetAllCoursesAsync();
 
-    Task<IList<CourseDto>> GetCoursesBySearchAsync(Guid? CategoryId = null, 
+    Task<IList<CourseListDto>> GetCoursesBySearchAsync(Guid? CategoryId = null, 
         DifficultyLevel? difficultyLevel = null, string? searchText = null);
+
+    Task<CourseDetailsDto> GetCourseDetailsByIdAsync(Guid id);
 }

@@ -5,7 +5,7 @@ using RecordedCourseSellingApp.Web.Models;
 
 namespace RecordedCourseSellingApp.Web.Controllers;
 
-//[Authorize(Roles ="User")]
+[AllowAnonymous]
 public class CourseController : Controller
 {
     private readonly ILogger<CourseController> _logger;
@@ -43,5 +43,24 @@ public class CourseController : Controller
         }
 
         return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        try
+        {
+            var model = _scope.Resolve<CourseDetailsModel>();
+            model.CourseId = id;
+            await model.LoadDataAsync();
+
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
+
+        return RedirectToAction("Index", "Course", new { Area = ""});
     }
 }

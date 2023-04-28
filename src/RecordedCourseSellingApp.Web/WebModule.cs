@@ -9,6 +9,8 @@ public class WebModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterType<DashboardModel>().AsSelf();
+
         builder.RegisterType<SignUpModel>().AsSelf();
         builder.RegisterType<SignInModel>().AsSelf();
 
@@ -21,6 +23,7 @@ public class WebModule : Module
         builder.RegisterType<CourseEditModel>().AsSelf();
 
         builder.RegisterType<CourseSearchModel>().AsSelf();
+        builder.RegisterType<CourseDetailsModel>().AsSelf();
 
         base.Load(builder);
     }

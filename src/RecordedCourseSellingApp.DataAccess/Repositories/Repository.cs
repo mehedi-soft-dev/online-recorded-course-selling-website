@@ -25,7 +25,17 @@ public class Repository<T, TKey> : IRepository<T, TKey>
     public async Task AddOrUpdateAsync(T entity) => await _session.SaveOrUpdateAsync(entity);
     
     public async Task MergeAsync(T entity) => await _session.MergeAsync(entity);
-    
+
+    public async Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null!)
+    {
+        var query = _session.QueryOver<T>();
+
+        if(predicate != null)
+            query = query.Where(predicate);
+
+        return await query.RowCountAsync();
+    }
+
     public async Task<T?> GetSingleAsync(TKey id) => await _session.GetAsync<T>(id);
 
     public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate) => 

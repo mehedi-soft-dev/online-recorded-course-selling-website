@@ -4,6 +4,7 @@ using RecordedCourseSellingApp.Services.BusinessObjects;
 using RecordedCourseSellingApp.Services.DTOs;
 using RecordedCourseSellingApp.Shared.Enums;
 using RecordedCourseSellingApp.Shared.Exceptions;
+using System.Linq.Expressions;
 using CourseEO = RecordedCourseSellingApp.DataAccess.Entities.Course;
 
 namespace RecordedCourseSellingApp.Services.Services;
@@ -11,12 +12,10 @@ namespace RecordedCourseSellingApp.Services.Services;
 internal class CourseService : ICourseService
 {
 	private readonly IUnitOfWork _unitOfWork;
-	private readonly ICategoryService _categoryService;
 
 	public CourseService(IUnitOfWork unitOfWork, ICategoryService categoryService)
 	{
 		_unitOfWork = unitOfWork;
-		_categoryService = categoryService;
 	}
 
 	public async Task CreateCourseAsync(Course course)
@@ -98,7 +97,7 @@ internal class CourseService : ICourseService
 		return course!.Adapt<Course>();
 	}
 
-	public async Task<IList<CourseDto>> GetCoursesBySearchAsync(Guid? categoryId = null,
+	public async Task<IList<CourseListDto>> GetCoursesBySearchAsync(Guid? categoryId = null,
 		DifficultyLevel? difficultyLevel = null!, string? searchText = null)
 	{
 		var courses = await _unitOfWork.Courses.FindAsync(
@@ -106,13 +105,26 @@ internal class CourseService : ICourseService
 				 (difficultyLevel > 0 ? x.DifficultyLevel == difficultyLevel : true) &&
 				 (string.IsNullOrEmpty(searchText) ? true : x.Title.Contains(searchText!)));
 
-		IList<CourseDto> result = new List<CourseDto>();
+		IList<CourseListDto> result = new List<CourseListDto>();
 
 		foreach(var course in courses)
 		{
-			result.Add(course.Adapt<CourseDto>());
+			result.Add(course.Adapt<CourseListDto>());
 		}
 
 		return result;
 	}
+
+    public async Task<int> GetCoursesCountAsync(
+		Expression<Func<CourseEO, bool>>? predicate = null)
+    {
+		return await _unitOfWork.Courses.GetCountAsync(predicate!);
+    }
+
+    public async Task<CourseDetailsDto> GetCourseDetailsByIdAsync(Guid id)
+    {
+        var course = await _unitOfWork.Courses.GetSingleAsync(id);
+
+        return course!.Adapt<CourseDetailsDto>();
+    }
 }
