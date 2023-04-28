@@ -75,10 +75,4 @@ public class CourseController : Controller
 
         return RedirectToAction("Index", "Course", new { Area = ""});
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Cart()
-    {
-        return View();
-    }
 }

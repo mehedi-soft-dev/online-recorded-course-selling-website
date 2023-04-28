@@ -26,6 +26,8 @@ public class WebModule : Module
         builder.RegisterType<CourseDetailsModel>().AsSelf();
 
         builder.RegisterType<CartItemAddModel>().AsSelf();
+        builder.RegisterType<CartDetailsModel>().AsSelf();
+        builder.RegisterType<CartItemListModel>().AsSelf();
 
         base.Load(builder);
     }

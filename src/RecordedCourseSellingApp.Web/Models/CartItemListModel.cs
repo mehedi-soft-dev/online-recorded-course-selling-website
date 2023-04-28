@@ -5,6 +5,8 @@ namespace RecordedCourseSellingApp.Web.Models;
 
 public class CartItemListModel : BaseModel
 {
+    public Guid CartItemId { get; set; }
+
     public Guid CourseId { get; set; }
 
     public string Title { get; set; } = string.Empty;

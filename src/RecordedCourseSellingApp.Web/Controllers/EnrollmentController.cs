@@ -18,6 +18,15 @@ public class EnrollmentController : Controller
         _scope = scope;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Cart()
+    {
+        var model = _scope.Resolve<CartDetailsModel>();
+        await model.LoadDataAsync(User.Identity!.Name!);
+
+        return View(model);
+    }
+
     public async Task<IActionResult> AddToCart(Guid CourseId)
     {
         try
@@ -34,5 +43,11 @@ public class EnrollmentController : Controller
         }
 
         return RedirectToAction("Details", "Course", new { Area = "", id = CourseId });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RemoveFromCart(Guid id)
+    {
+        return View();
     }
 }

@@ -46,8 +46,8 @@
                 <h5>SUBTOTAL: @cartItems!.Sum(x => x.Price) BDT</h5>
             </div>
             <div class="cart-btns">
-                <a href="#">View Cart</a>
-                <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                <a asp-area="" asp-controller="Enrollment" asp-action="Cart">View Cart</a>
+                <a asp-area="" asp-controller="Enrollment" asp-action="Checkout">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
