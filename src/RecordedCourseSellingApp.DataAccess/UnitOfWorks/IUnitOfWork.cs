@@ -12,4 +12,5 @@ public interface IUnitOfWork : IDisposable
 
     ICategoryRepository Categories { get; }
     ICourseRepository Courses { get; }
+    ICartRepository Carts { get; }
 }
