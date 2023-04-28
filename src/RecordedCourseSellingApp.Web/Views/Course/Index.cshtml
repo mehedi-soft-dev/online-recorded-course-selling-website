@@ -62,12 +62,12 @@
                             <li class="list-group-item"><span style="font-weight:500">Price : </span> BDT. @item.Price.ToString("0,000")</li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId" class="btn btn-sm btn-block btn-black"><i class="fa fa-list" aria-hidden="true"></i> Details</a>
                                     </div>
-                                    <div class="col-md-6">
-                                        <a href="#" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
-                                    </div>
+                                    @*<div class="col-md-6">
+                                        <a href="javascript:void(0)" onclick="AddToCart('@item.CourseId')" class="btn btn-sm btn-block btn-red"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+                                    </div>*@
                                 </div>
                             </li>
                         </ul>

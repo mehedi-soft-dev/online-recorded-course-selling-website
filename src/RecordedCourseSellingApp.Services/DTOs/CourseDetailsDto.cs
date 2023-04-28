@@ -19,4 +19,8 @@ public class CourseDetailsDto
     public string? ThumbnailImage { get; set; }
 
     public string VideoUrl { get; set; } = string.Empty;
+
+    public bool AlreadyAddedToCart { get; set; }
+
+    public bool AlreadyEnrolled { get; set; }
 }

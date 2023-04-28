@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.DataAccess.Identity.Entities;
 
