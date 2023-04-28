@@ -82,6 +82,11 @@ public class EnrollmentController : Controller
         {
             model.ResolveDependency(_scope);
             await model.CreateCheckoutAsync(User.Identity!.Name!);
+
+            var cartItems = new List<CartItemListModel>();
+            HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
+
+            return View("CheckoutResponse");
         }
         catch(Exception ex)
         {

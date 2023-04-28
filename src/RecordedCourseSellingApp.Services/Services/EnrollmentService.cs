@@ -23,10 +23,13 @@ public class EnrollmentService : IEnrollmentService
     public async Task AddCartItemAsync(CartItem item)
     {
         var user = await _userManager.FindByNameAsync(item.Username);
-        var course = await _unitOfWork.Courses.GetSingleAsync(item.CourseId);
-
         if (user is null) throw new Exception("User not found");
+
+        var course = await _unitOfWork.Courses.GetSingleAsync(item.CourseId);
         if (course is null) throw new Exception("Course not found");
+
+        var entityCount = await _unitOfWork.Enrollments.GetCountAsync(x => x.Course == course && x.User == user);
+        if (entityCount > 0) throw new Exception("Already enrolled in this course");
 
         var cartItem = item.Adapt<CartItemEO>();
         cartItem.User = user;
@@ -64,6 +67,7 @@ public class EnrollmentService : IEnrollmentService
             };
 
             await _unitOfWork.Enrollments.AddAsync(enrollment);
+            await _unitOfWork.CartItems.DeleteAsync(cartItem);
         }
         
         await _unitOfWork.Commit();

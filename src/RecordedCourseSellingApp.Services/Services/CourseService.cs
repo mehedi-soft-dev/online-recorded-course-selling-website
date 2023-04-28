@@ -133,8 +133,14 @@ internal class CourseService : ICourseService
 		if (!string.IsNullOrEmpty(username))
 		{
 			var user = await _userManager.FindByNameAsync(username);
-            
-			int cartItemCount = await _unitOfWork.CartItems.GetCountAsync(
+
+			var enrolledCount = await _unitOfWork.Enrollments.GetCountAsync(
+				x => x.Course == course && x.User == user);
+
+			if(enrolledCount > 0)
+                courseBO.AlreadyEnrolled = true;
+
+            int cartItemCount = await _unitOfWork.CartItems.GetCountAsync(
             x => x.Course == course && x.User == user);
 
             if (cartItemCount > 0)
