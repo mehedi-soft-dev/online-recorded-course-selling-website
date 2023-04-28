@@ -112,7 +112,7 @@ public class ApplicationUserMap : ClassMapping<ApplicationUser>
         Bag(x => x.CartItems, m =>
         {
             m.Key(k => k.Column("CategoryId"));
-            m.Cascade(Cascade.All | Cascade.DeleteOrphans);
+            m.Cascade(Cascade.Persist);
             m.Inverse(true);
         }, r => r.OneToMany());
     }

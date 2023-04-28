@@ -11,4 +11,8 @@ public class CartItem
     public Guid CourseId { get; set; }
 
     public int Price { get; set; }
+
+    public string ThumbnailImage { get; set; }
+
+    public string Title { get; set; }
 }

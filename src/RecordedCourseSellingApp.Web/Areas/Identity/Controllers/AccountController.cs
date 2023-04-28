@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
+using RecordedCourseSellingApp.Services.Services;
 using RecordedCourseSellingApp.Web.Areas.Identity.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace RecordedCourseSellingApp.Web.Areas.Identity.Controllers;
@@ -17,14 +20,17 @@ public class AccountController : Controller
     private readonly ILifetimeScope _scope;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IEnrollmentService _enrollmentService;
 
     public AccountController(ILogger<AccountController> logger, ILifetimeScope scope,
-        UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+        IEnrollmentService enrollmentService)
     {
         _logger = logger;
         _scope = scope;
         _userManager = userManager;
         _signInManager = signInManager;
+        _enrollmentService = enrollmentService;
     }
 
     [HttpGet]
@@ -76,7 +82,18 @@ public class AccountController : Controller
                 else
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    if(model.ReturnUrl == null)
+
+                    var cartItems = _enrollmentService.GetCartItemsAsync(user.NormalizedUserName);
+
+                    if (cartItems != null)
+                    {
+                        var claims = (await _userManager.GetClaimsAsync(user)).ToList();
+                        claims.Add(new Claim("CartItems", JsonConvert.SerializeObject(cartItems)));
+
+                        await _userManager.ReplaceClaimAsync(user, claims[0], claims[1]);
+                    }
+
+                    if (model.ReturnUrl == null)
                         return RedirectToAction("Index", "Course", new {Area = ""});
 
                     return RedirectToAction(model.ReturnUrl);
@@ -126,7 +143,12 @@ public class AccountController : Controller
                     return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                 }
 
-                _logger.LogInformation("User logged in.");
+				var cartItems = await _enrollmentService.GetCartItemsAsync(user.NormalizedUserName);
+
+				if (cartItems != null)
+                    HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
+
+				_logger.LogInformation("User logged in.");
 
                 return RedirectToAction("","", new {Area = ""});
             }
