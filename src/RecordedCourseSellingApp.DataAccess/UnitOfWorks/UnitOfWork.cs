@@ -9,20 +9,20 @@ public class UnitOfWork : IUnitOfWork
     private readonly ITransaction _transaction;
     private readonly ICategoryRepository _categoryRepository;
     private readonly ICourseRepository _courseRepository;
-    private readonly ICartItemRepository _cartRepository;
+    private readonly ICartItemRepository _cartItemsRepository;
     private readonly IEnrollmentRepository _enrollmentRepository;
 
     public UnitOfWork(ISession session,
         ICategoryRepository categoryRepository,
         ICourseRepository courseRepository,
-        ICartItemRepository cartRepository,
+        ICartItemRepository cartItemsRepository,
         IEnrollmentRepository enrollmentRepository)
     {
         _session = session;
         _transaction = _session.BeginTransaction();
         _categoryRepository = categoryRepository;
         _courseRepository = courseRepository;
-        _cartRepository = cartRepository;
+        _cartItemsRepository = cartItemsRepository;
         _enrollmentRepository = enrollmentRepository;
     }
 
@@ -49,6 +49,6 @@ public class UnitOfWork : IUnitOfWork
 
     public ICategoryRepository Categories => _categoryRepository;
     public ICourseRepository Courses => _courseRepository;
-    public ICartItemRepository CartItems => _cartRepository;
+    public ICartItemRepository CartItems => _cartItemsRepository;
     public IEnrollmentRepository Enrollments => _enrollmentRepository;
 }

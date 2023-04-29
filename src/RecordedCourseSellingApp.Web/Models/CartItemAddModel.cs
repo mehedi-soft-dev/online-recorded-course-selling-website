@@ -17,7 +17,7 @@ public class CartItemAddModel : BaseModel
 
     public CartItemAddModel() : base()
     {
-        
+
     }
 
     public CartItemAddModel(IEnrollmentService enrollmentService)

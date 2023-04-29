@@ -1,8 +1,6 @@
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using log4net;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using RecordedCourseSellingApp.DataAccess;
 using RecordedCourseSellingApp.Services;
@@ -86,8 +84,6 @@ try
         app.UseHsts();
     }
 
-    app.UseSession();
-
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 
@@ -95,6 +91,7 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+    app.UseSession();
 
     app.MapControllerRoute(
         name: "areas",

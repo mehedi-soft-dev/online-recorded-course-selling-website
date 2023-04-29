@@ -19,7 +19,7 @@ public class CartItemListModel : BaseModel
 
     public CartItemListModel() : base()
     {
-        
+
     }
 
     public CartItemListModel(IEnrollmentService enrollmentService)

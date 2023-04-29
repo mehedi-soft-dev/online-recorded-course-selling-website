@@ -54,9 +54,7 @@ Table OF Contents
 /*----------------------------*\
 	Typography
 \*----------------------------*/
-button:focus {
-    outline: none;
-}
+
 .btn-red {
     background-color: #D10024;
     border-color: #cc0022;

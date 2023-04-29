@@ -3,9 +3,10 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <div class="cart-list">
-            @if (Model.CartItems != null && Model.CartItems.Count() > 0)
-            {
+
+        @if (Model.CartItems != null && Model.CartItems.Count() > 0)
+        {
+            <div class="cart-list">
                 <table border="0">
 
                     @foreach (var item in Model.CartItems)
@@ -30,8 +31,14 @@
                         </tr>
                     }
                 </table>
-            }
-        </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                <h5 style="text-align:center;">You'r Cart is Empty!</h5>
+            </div>
+        }
         <div class="cart-summary text-right">
             <small>@Model.CartItems!.Count() Item(s) selected</small>
             <h5 style="padding:10px 0;">SUBTOTAL:  BDT @Model.CartItems!.Sum(x => x.Price)/=</h5>

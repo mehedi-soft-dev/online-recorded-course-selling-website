@@ -14,7 +14,7 @@ public class EnrollmentService : IEnrollmentService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
 
-    public EnrollmentService(UserManager<ApplicationUser> userManger, 
+    public EnrollmentService(UserManager<ApplicationUser> userManger,
         IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
@@ -55,10 +55,10 @@ public class EnrollmentService : IEnrollmentService
         var cartItems = await _unitOfWork.CartItems.FindAsync(x => x.User == user);
         if (cartItems.Count() == 0)
             throw new Exception("No Cart item found with this user");
-        
+
         await _unitOfWork.BeginTransaction();
 
-        foreach(var cartItem in cartItems)
+        foreach (var cartItem in cartItems)
         {
             var enrollment = new EnrollmentEO()
             {
@@ -70,7 +70,7 @@ public class EnrollmentService : IEnrollmentService
             await _unitOfWork.Enrollments.AddAsync(enrollment);
             await _unitOfWork.CartItems.DeleteAsync(cartItem);
         }
-        
+
         await _unitOfWork.Commit();
     }
 
@@ -84,7 +84,7 @@ public class EnrollmentService : IEnrollmentService
 
         IList<CartItem> cartItems = new List<CartItem>();
 
-        foreach(var entity in entities)
+        foreach (var entity in entities)
         {
             cartItems.Add(entity.Adapt<CartItem>());
         }
@@ -127,7 +127,7 @@ public class EnrollmentService : IEnrollmentService
 
         var list = new List<CourseListDto>();
 
-        foreach(var course in enrolledCourses)
+        foreach (var course in enrolledCourses)
         {
             list.Add(course.Adapt<CourseListDto>());
         }

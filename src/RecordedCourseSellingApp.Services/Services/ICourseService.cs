@@ -23,7 +23,7 @@ public interface ICourseService
 
     Task<IList<Course>> GetAllCoursesAsync();
 
-    Task<IList<CourseListDto>> GetCoursesBySearchAsync(Guid? CategoryId = null, 
+    Task<IList<CourseListDto>> GetCoursesBySearchAsync(Guid? CategoryId = null,
         DifficultyLevel? difficultyLevel = null, string? searchText = null);
 
     Task<CourseDetailsDto> GetCourseDetailsByIdAsync(Guid id, string? username = null);

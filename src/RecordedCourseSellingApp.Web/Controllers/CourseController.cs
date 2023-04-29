@@ -12,19 +12,16 @@ public class CourseController : Controller
 {
     private readonly ILogger<CourseController> _logger;
     private readonly ILifetimeScope _scope;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
 
     public CourseController(ILogger<CourseController> logger, ILifetimeScope scope,
         UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _scope = scope;
-        _userManager = userManager;
     }
 
     [HttpGet]
-	public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
         var model = _scope.Resolve<CourseSearchModel>();
         await model.LoadDdlAsync();
@@ -33,7 +30,7 @@ public class CourseController : Controller
         return View(model);
     }
 
-	[HttpPost]
+    [HttpPost]
     [AllowAnonymous, ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(CourseSearchModel? model = null)
     {
@@ -73,6 +70,6 @@ public class CourseController : Controller
             _logger.LogError(ex.Message, ex);
         }
 
-        return RedirectToAction("Index", "Course", new { Area = ""});
+        return RedirectToAction("Index", "Course", new { Area = "" });
     }
 }
