@@ -31,6 +31,9 @@ public class WebModule : Module
 
         builder.RegisterType<CheckoutCreateModel>().AsSelf();
 
+        builder.RegisterType<EnrolledListModel>().AsSelf();
+        builder.RegisterType<EnrolledCourseDetailModel>().AsSelf();
+
         base.Load(builder);
     }
 }
