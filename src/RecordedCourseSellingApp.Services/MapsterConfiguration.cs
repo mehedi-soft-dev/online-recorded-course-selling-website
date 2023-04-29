@@ -8,6 +8,7 @@ using CartItemEO = RecordedCourseSellingApp.DataAccess.Entities.CartItem;
 using CartItemBO = RecordedCourseSellingApp.Services.BusinessObjects.CartItem;
 
 using RecordedCourseSellingApp.Services.DTOs;
+using RecordedCourseSellingApp.DataAccess.Entities;
 
 namespace RecordedCourseSellingApp.Services;
 
@@ -39,5 +40,13 @@ public static class MapsterConfiguration
             .Map(dest => dest.Title, src => src.Course.Title)
             .Map(dest => dest.ThumbnailImage, src => src.Course.ThumbnailImage)
             .Map(dest => dest.Price, src => src.Course.Price);
+
+        TypeAdapterConfig<Enrollment, CourseListDto>
+            .NewConfig()
+            .Map(dest => dest.CourseId, src => src.Course.Id)
+            .Map(dest => dest.Title, src => src.Course.Title)
+            .Map(dest => dest.CategoryName, src => src.Course.Category.Name)
+            .Map(dest => dest.DifficultyLevel, src => src.Course.DifficultyLevel)
+            .Map(dest => dest.ThumbnailImage, src => src.Course.ThumbnailImage);
     }
 }

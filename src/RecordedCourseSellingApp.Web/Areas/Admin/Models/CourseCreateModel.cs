@@ -64,6 +64,7 @@ public class CourseCreateModel : BaseModel
     public override void ResolveDependency(ILifetimeScope scope)
     {
         base.ResolveDependency(scope);
+        _categoryService = _scope.Resolve<ICategoryService>();
         _courseService = _scope.Resolve<ICourseService>();
         _bufferedFileUploadService = _scope.Resolve<IBufferedFileUploadService>();
     }
