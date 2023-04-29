@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using RecordedCourseSellingApp.DataAccess.Identity.Entities;
 using RecordedCourseSellingApp.DataAccess.UnitOfWorks;
 using RecordedCourseSellingApp.Services.BusinessObjects;
+using RecordedCourseSellingApp.Services.DTOs;
 using CartItemEO = RecordedCourseSellingApp.DataAccess.Entities.CartItem;
 using EnrollmentEO = RecordedCourseSellingApp.DataAccess.Entities.Enrollment;
 
@@ -115,5 +116,36 @@ public class EnrollmentService : IEnrollmentService
         await _unitOfWork.BeginTransaction();
         await _unitOfWork.CartItems.DeleteAsync(cartItem!);
         await _unitOfWork.Commit();
+    }
+
+    public async Task<IEnumerable<CourseListDto>> GetEnrolledCoursesAsync(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user is null) throw new Exception("User not found");
+
+        var enrolledCourses = await _unitOfWork.Enrollments.FindAsync(x => x.User == user);
+
+        var list = new List<CourseListDto>();
+
+        foreach(var course in enrolledCourses)
+        {
+            list.Add(course.Adapt<CourseListDto>());
+        }
+
+        return list;
+    }
+
+    public async Task<EnrolledCourseDto> GetEnrolledCourseDetailsAsync(string username, Guid courseId)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user is null) throw new Exception("User not found");
+
+        var course = await _unitOfWork.Courses.GetSingleAsync(courseId);
+        if (course == null) throw new Exception("Course not found");
+
+        var isEnrolled = await _unitOfWork.Enrollments.GetCountAsync(x => x.Course == course && x.User == user);
+        if (isEnrolled == 0) throw new Exception("Course is not enrolled");
+
+        return course.Adapt<EnrolledCourseDto>();
     }
 }
