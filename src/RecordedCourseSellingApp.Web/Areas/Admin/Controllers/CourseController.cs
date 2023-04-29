@@ -72,6 +72,7 @@ public class CourseController : Controller
             return RedirectToAction(nameof(Index));
         }
 
+        await model.LoadDdlAsync();
         return View(model);
     }
 
