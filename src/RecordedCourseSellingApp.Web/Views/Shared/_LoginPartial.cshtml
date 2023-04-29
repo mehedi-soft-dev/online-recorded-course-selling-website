@@ -1,58 +1,19 @@
-﻿@using Newtonsoft.Json;
-@using RecordedCourseSellingApp.Services.BusinessObjects;
-@using RecordedCourseSellingApp.DataAccess.Identity.Entities
+﻿@using RecordedCourseSellingApp.DataAccess.Identity.Entities
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject IHttpContextAccessor HttpContextAccessor
 
-@{
-    IList<CartItemListModel> cartItems = new List<CartItemListModel>();
-    var cartData = HttpContextAccessor.HttpContext!.Session.GetString("CartItems");
-    if (cartData != null)
-    {
-        cartItems = JsonConvert.DeserializeObject<List<CartItemListModel>>(cartData)!;
-    }
-}
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="dropdown" style="cursor:pointer;" id="eedu-cart-section">
-        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+    <div>
+        <a asp-area="" asp-controller="Enrollment" asp-action="Cart">
             <i class="fa fa-shopping-cart"></i>
             <span>Your Cart</span>
-            <div class="qty">@cartItems.Count()</div>
         </a>
-        <div class="cart-dropdown">
-            <div class="cart-list">
-                @if (cartItems != null && cartItems.Count() > 0)
-                {
-                    foreach (var item in cartItems)
-                    {
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="/UploadedFiles/Course/Thumbnail/@item.ThumbnailImage" alt="">
-                            </div>
-                            <div class="product-body">
-                                <h3 class="product-name"><a href="#">@item.Title</a></h3>
-                                <h4 class="product-price">@item.Price BDT</h4>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-            <div class="cart-summary">
-                <small>@cartItems!.Count() Item(s) selected</small>
-                <h5>SUBTOTAL: @cartItems!.Sum(x => x.Price) BDT</h5>
-            </div>
-            <div class="cart-btns">
-                <a asp-area="" asp-controller="Enrollment" asp-action="Cart">View Cart</a>
-                <a asp-area="" asp-controller="Enrollment" asp-action="Checkout">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
     </div>
     <div>
-        <a href="#">
+        <a asp-area="" asp-controller="Dashboard" asp-action="Index">
             <i class="fa fa-user"></i>
             <span>My Account</span>
         </a>

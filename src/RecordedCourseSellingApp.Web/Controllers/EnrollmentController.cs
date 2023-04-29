@@ -58,12 +58,12 @@ public class EnrollmentController : Controller
 
             HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartItems));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
         }
 
-        return RedirectToAction("Cart", "Enrollment", new { Area="" });
+        return RedirectToAction("Cart", "Enrollment", new { Area = "" });
     }
 
     [HttpGet]
@@ -88,7 +88,7 @@ public class EnrollmentController : Controller
 
             return View("CheckoutResponse");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
         }

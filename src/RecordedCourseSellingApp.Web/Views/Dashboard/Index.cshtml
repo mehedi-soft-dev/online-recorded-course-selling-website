@@ -1,0 +1,38 @@
+﻿@model EnrolledListModel
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h3>Enrolled Courses</h3>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model.EnrolledCourses != null && Model.EnrolledCourses.Count() > 0)
+    {
+        foreach (var item in Model.EnrolledCourses)
+        {
+            <div class="col-md-3">
+                <ul class="list-group">
+                    <li class="list-group-item"><img src="UploadedFiles/Course/Thumbnail/@item.ThumbnailImage" style="height: 100%; width: 100%; display:block;" /></li>
+                    <li class="list-group-item"><h5>@item.Title</h5></li>
+                    <li class="list-group-item"><span style="font-weight:500">Category :</span> @item.CategoryName</li>
+                    <li class="list-group-item"><span style="font-weight:500">Difficulty :</span> @item.DifficultyLevel.ToString()</li>
+                    <li class="list-group-item">
+                        <a asp-area="" asp-controller="Dashboard" asp-action="Watch" asp-route-id="@item.CourseId" class="btn btn-sm btn-block btn-black"><i class="fa fa-eye" aria-hidden="true"></i>  Watch</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-id="@item.CourseId" class="btn btn-sm btn-block btn-red"><i class="fa fa-list" aria-hidden="true"></i>  Course Details</a>
+                    </li>
+                </ul>
+
+
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <h4>You did not enroll any course</h4>
+        </div>
+    }
+</div>

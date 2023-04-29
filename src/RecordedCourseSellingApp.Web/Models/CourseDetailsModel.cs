@@ -29,7 +29,7 @@ public class CourseDetailsModel : BaseModel
 
     private ICourseService _courseService;
 
-    
+
     public CourseDetailsModel() : base()
     {
 

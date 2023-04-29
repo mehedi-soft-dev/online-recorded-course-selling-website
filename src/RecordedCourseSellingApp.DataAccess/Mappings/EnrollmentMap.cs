@@ -19,9 +19,14 @@ public class EnrollmentMap : ClassMapping<Enrollment>
             x.Column("Id");
             x.UnsavedValue(Guid.Empty);
         });
+        Property(b => b.Price, x =>
+        {
+            x.Type(NHibernateUtil.Int32);
+            x.NotNullable(true);
+        });
         ManyToOne(x => x.User, m =>
         {
-            m.Column("UserId");
+            m.Column("ApplicationUserId");
             m.Class(typeof(ApplicationUser));
             m.Cascade(Cascade.Persist);
             m.NotNullable(true);
@@ -32,11 +37,6 @@ public class EnrollmentMap : ClassMapping<Enrollment>
             m.Class(typeof(Course));
             m.Cascade(Cascade.Persist);
             m.NotNullable(true);
-        });
-        Property(b => b.Price, x =>
-        {
-            x.Type(NHibernateUtil.Int32);
-            x.NotNullable(true);
         });
     }
 }

@@ -7,7 +7,6 @@ using CourseBO = RecordedCourseSellingApp.Services.BusinessObjects.Course;
 using CartItemEO = RecordedCourseSellingApp.DataAccess.Entities.CartItem;
 using CartItemBO = RecordedCourseSellingApp.Services.BusinessObjects.CartItem;
 
-
 using RecordedCourseSellingApp.Services.DTOs;
 
 namespace RecordedCourseSellingApp.Services;
